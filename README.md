@@ -92,6 +92,26 @@ The flow pattern during usage by either an applicant in the questionnaire portal
 ![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
 
 
+## Template Layout
+
+```bash
+Questionnaire Project
+│
+├── 404.html
+├── 500.html
+├── build.html
+├── confirm.html
+├── elements
+│   ├── base.html
+│   ├── footer.html
+│   ├── form_row.html
+│   └── nav.html
+├── form.html
+├── forms.html
+├── index.html
+└── review.html
+```
+
 ## Development Environment Setup
 
 ```bash
