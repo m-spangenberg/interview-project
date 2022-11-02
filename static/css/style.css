@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+}
+
+.ms_trash {
+    color: rgb(255, 62, 104);
+}
+
+.ms_edit {
+    color: rgb(30, 40, 173);
+}
+
+.ms_actionbuttons {
+    width:100px;
+}
