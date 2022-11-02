@@ -3,7 +3,7 @@
 
     <!-- Navbar Left -->
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://www.bcx.co.za/our-offices/namibia/">
+      <a class="navbar-item" href="/">
         <h1 class="is-size-3"><strong class="has-text-weight-bold">BCX</strong> NAMIBIA</h1>
       </a>
       <div id="navbarBurger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarLinks">
@@ -19,7 +19,9 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="field is-grouped">
-
+                    
+                    {# context specific buttons based on user authentication #}
+                    {% if user.is_authenticated %}
                     <!-- Questionnaire Modification Button -->
                     <p class="control level">
                     <a class="button is-link" href="#">
@@ -30,7 +32,7 @@
                     </a>
                     </p>
 
-                    <!-- Questionnaire Archive Button -->
+                    <!-- Questionnaire Review Button -->
                     <p class="control">
                         <a class="button is-link" href="#">
                         <span class="icon">
@@ -39,6 +41,18 @@
                         <span>Review</span>
                         </a>
                     </p>
+                    {% else %}
+                    <!-- Login To Admin Portal -->
+                    <p class="control">
+                        <a class="button is-link" href="/login">
+                        <span class="icon">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                        <span>Login</span>
+                        </a>
+                    </p>
+                    
+                    {% endif %}
 
                 </div>
             </div>
