@@ -7,7 +7,7 @@ As part of the applicant screening process, I have been tasked with completing a
 The project will be evaluated on the following criteria:
 
 * Code Reusability
-  * How modular is the codebase and can it be reused easily?
+  * How modular is the codebase and can portions of it be reused easily?
 * Code Maintenance
   * How difficult is it to keep the code maintained over time?
 * Code Documentation
@@ -92,7 +92,7 @@ The flow pattern during usage by either an applicant in the questionnaire portal
 ![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
 
 
-## Template Layout
+## Template Inheritance Diagram
 
 ```bash
 Questionnaire Project
@@ -112,19 +112,14 @@ Questionnaire Project
 └── review.html
 ```
 
-## Development Environment Setup
-
-```bash
-# 
-pipenv install flask
-#
-
-```
-
 ## Database Schema
 
 ```sql
 ```
+
+## Extras
+
+Some things I had extra time for:
 
 ## Deployment
 
@@ -153,9 +148,12 @@ sudo
 # clone this repository
 git clone https://github.com/m-spangenberg/interview-project.git forms
 cd ./forms
-# run forms via pipenv from inside the cloned directory
-pipenv install
-pipenv flask run
+# make sure you have pipenv installed
+pip install --user pipenv
+# install the needed dependencies from the piplock file
+pipenv install 
+# or if you prefer use the requirements.txt file
+pipenv run python app.py
 ```
 
 ## Usage
