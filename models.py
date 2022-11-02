@@ -1,13 +1,22 @@
-from os import path
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
-DB_NAME = "forms.db"
-DB_LOCATION = "data/db/"
+DB_NAME = "CX_YOUR_FIRSTNAME_BA_DB.db"
+DB_LOCATION = "data/database/"
 
 db = SQLAlchemy()
 
+# Database Models
+class Applicant(db.Model):
+    """applicant table"""
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True)
 
-def create_database(app):
-    """Perform a check to see if the database exists"""
-    if not path.exists(DB_LOCATION + DB_NAME):
-        db.create_all(app=app)
+class User(db.Model):
+    """user table"""
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String)
+
+# class Form(db.Model):
+
+# class Session(db.Model):
