@@ -81,9 +81,9 @@ great asset to the BCX Business Application Department?
 to JSON.
 
   * **Backend Portal Area Bonus Criteria**
-  * Add authentication for an admin user. i.e. username and password
-  * Statistics reports on how long the user takes to complete the survey.
-  * Allow admin to add more questions and answers to question form.
+    * Add authentication for an admin user. i.e. username and password
+    * Statistics reports on how long the user takes to complete the survey.
+    * Allow admin to add more questions and answers to question form.
 
 ## Application Flow
 
