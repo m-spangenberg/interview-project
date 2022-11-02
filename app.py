@@ -39,6 +39,7 @@ from models import User
 # FLASK AND DATABASE INITIALIZATION
 app = Flask(__name__)
 app.secret_key = b"thisIsNotAProductionApp"
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 # app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_LOCATION}/{DB_NAME}"
 # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # db.init_app(app)
@@ -47,22 +48,52 @@ app.secret_key = b"thisIsNotAProductionApp"
 #     db.create_all()
 
 # LOGIN MANAGER MODULE
-# login_manager = LoginManager()
-# login_manager.login_view = 'login'
-# login_manager.init_app(app)
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
 
 
-# @login_manager.user_loader
-# def load_user(id):
-#     return User.query.get(int(id))
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 # APP ROUTES
 @app.route("/")
-@app.route("/index")
 def index():
     '''Serve landing page template.'''
     return render_template("index.html", user=current_user)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def page_login():
+    '''Serve login page template.'''
+    if request.method == 'POST':
+
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = request.form.get('remember')
+
+        user = User.query.filter_by(email=email).first()
+
+        try:
+            if user:
+                if check_password_hash(user.password, password):
+                    login_user(user, remember=remember)
+                    # Set user as online
+                    current_user.state = True
+                    db.session.commit()
+                    return redirect(url_for('review'))
+                else:
+                    raise Exception
+            else:
+                raise Exception
+
+        except Exception as e:
+            flash('Incorrect email or password')
+
+    else:
+        return render_template("login.html")
 
 
 @app.errorhandler(404)
