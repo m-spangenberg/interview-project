@@ -137,3 +137,25 @@ cd ./forms
 pipenv install
 pipenv flask run
 ```
+
+## Usage
+
+For testing purposes the following accounts are auto-generated when the database is first created. Make use of them to test frontend and backend functionality.
+
+Admin Account
+
+```bash
+# username
+admin@example.com
+# password
+adminpassword!
+```
+
+User Account
+
+```bash
+# username
+dummy@example.com
+# password
+dummypassword!
+```
