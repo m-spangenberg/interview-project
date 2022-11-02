@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" >
-    <link rel="stylesheet" href="style.css">
-    <title>% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
 
@@ -17,6 +17,6 @@
         {% endblock body %}
     </main>
     
-    <script src="index.js"></script>
+    <script src="/static/js/index.js"></script>
 </body>
 </html>
