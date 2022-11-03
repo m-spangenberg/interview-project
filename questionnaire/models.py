@@ -1,4 +1,3 @@
-from sqlalchemy_utils import ChoiceType
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
@@ -26,17 +25,10 @@ class FormData(db.Model):
 
 class Questions(db.Model):
     """question structure table used by form builder"""
-    FIELDS = [
-        ('input', 'input'),
-        ('textarea', 'textarea'),
-        ('select', 'select'),
-        ('radio', 'radio'),
-    ]
-
     id = db.Column(db.Integer, primary_key=True)
     heading = db.Column(db.String(64), default='Question #')
     prompt = db.Column(db.String(256))
-    field = db.Column(ChoiceType(FIELDS))
+    #field = db.Column(ChoiceType(FIELDS))
 
 class Session(db.Model):
     """per applicant session statistics"""
