@@ -112,6 +112,10 @@ Questionnaire Project
 └── review.html
 ```
 
+## Questionnaire & Form Builder
+
+I decided to implement the form builder portion of the project using a scaffolding approach. By using the database as the single source of truth and generating the questionnaire using templates, I am free to perform CRUD operations on a form master table and have the frontend inherit any changes from the database. To get around retro-active access to older forms, user submitted data is stored as a JSON object and reconstituted in the same way as the frontend's questionnaire, except from a single JSON dump instead of queries to SQLite.
+
 ## Database Schema
 
 ```sql
@@ -120,6 +124,8 @@ Questionnaire Project
 ## Extras
 
 Some things I had extra time for:
+
+* fully responsive for mobile
 
 ## Deployment
 
