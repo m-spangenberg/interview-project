@@ -40,9 +40,10 @@ from models import User
 app = Flask(__name__)
 app.secret_key = b"thisIsNotAProductionApp"
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-# app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_LOCATION}/{DB_NAME}"
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# db.init_app(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_LOCATION}/{DB_NAME}"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db.init_app(app)
+db.create_all()
 
 # with app.app_context():
 #     db.create_all()
@@ -72,7 +73,6 @@ def page_login():
 
         email = request.form.get('email')
         password = request.form.get('password')
-        remember = request.form.get('remember')
 
         user = User.query.filter_by(email=email).first()
 
@@ -93,7 +93,7 @@ def page_login():
             flash('Incorrect email or password')
 
     else:
-        return render_template("login.html")
+        return render_template("login.html", user=current_user)
 
 
 @app.errorhandler(404)
