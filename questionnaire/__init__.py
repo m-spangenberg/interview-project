@@ -71,19 +71,19 @@ def create_app():
     @app.route("/")
     def index():
         """Serve the questionnaire landing page template."""
-        return render_template("index.html", user=current_user)
+        return render_template("index.html")
 
     # APPLICANT PORTAL ROUTES
     @app.route("/form")
     #NOTE: only allow users who have entered their email address to access this page
     def form():
         """Serve the questionnaire landing page template."""
-        return render_template("form.html", user=current_user)
+        return render_template("form.html")
 
     @app.route("/confirm", methods=['GET', 'POST'])
     def confirm():
         '''Serve account template.'''
-        return render_template("confirm.html", user=current_user)
+        return render_template("confirm.html")
 
     # ADMIN PORTAL ROUTES
     @app.route("/login", methods=["GET", "POST"])
@@ -113,7 +113,7 @@ def create_app():
                 flash("Incorrect email or password")
 
         else:
-            return render_template("login.html", user=current_user)
+            return render_template("login.html")
     
     @app.route("/logout")
     @login_required
@@ -126,19 +126,19 @@ def create_app():
     @login_required
     def admin():
         '''Serve questionnaire review page.'''
-        return render_template("admin.html", user=current_user)
+        return render_template("admin.html")
 
     @app.route("/review", methods=['GET', 'POST'])
     @login_required
     def review():
         '''Serve questionnaire review page.'''
-        return render_template("review.html", user=current_user)
+        return render_template("review.html")
 
     @app.route("/build", methods=['GET', 'POST'])
     @login_required
     def build():
         '''Serve questionnaire builder page.'''
-        return render_template("build.html", user=current_user)
+        return render_template("build.html")
 
     # SERVICE ROUTES
     @app.errorhandler(404)
