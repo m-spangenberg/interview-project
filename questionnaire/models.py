@@ -1,9 +1,9 @@
+from sqlalchemy_utils import ChoiceType
 from sqlalchemy.sql import func
-from sqlalchemy
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
-DB_NAME = "CX_MARTHINUS_BA_DB.db"
+DB_NAME = "test.db"
 DB_LOCATION = "data/database/"
 
 db = SQLAlchemy()
@@ -27,10 +27,16 @@ class Form(db.Model):
 
 class Questions(db.Model):
     """question structure table used by form builder"""
+    FIELDS = [
+        ('input', 'input'),
+        ('textarea', 'textarea'),
+        ('select', 'select'),
+        ('radio', 'radio'),
+    ]
 
     id = db.Column(db.Integer, primary_key=True)
     prompt = db.Column(db.String(256))
-    field = 
+    field = db.Column(ChoiceType(FIELDS))
 
 class Session(db.Model):
     """per applicant session statistics"""

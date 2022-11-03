@@ -26,27 +26,24 @@ from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 
 # STANDARD LIBRARY
+import os
 from datetime import datetime
 
 # APPLICATION
-from models import db
-from models import DB_NAME
-from models import DB_LOCATION
-from models import Applicant
-from models import User
+from questionnaire.models import db
+from questionnaire.models import DB_NAME
+from questionnaire.models import DB_LOCATION
+from questionnaire.models import Applicant
+from questionnaire.models import User
 
 
-# FLASK AND DATABASE INITIALIZATION
-app = Flask(__name__)
+# Set the base directory for the Flask instance
+app = Flask(__name__, instance_relative_config=True)
 app.secret_key = b"thisIsNotAProductionApp"
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_LOCATION}/{DB_NAME}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///'{DB_LOCATION}{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 db.init_app(app)
-db.create_all()
-
-# with app.app_context():
-#     db.create_all()
 
 # LOGIN MANAGER MODULE
 login_manager = LoginManager()
