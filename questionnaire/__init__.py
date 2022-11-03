@@ -142,7 +142,8 @@ def create_app():
     @login_required
     def admin():
         """Serve questionnaire review page."""
-        return render_template("admin.html")
+        form_archive = [1,2,3,4,5,6]
+        return render_template("admin.html", form_archive=form_archive)
 
     @app.route("/review", methods=["GET", "POST"])
     @login_required
