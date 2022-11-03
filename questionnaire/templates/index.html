@@ -26,17 +26,31 @@
                 </ul>
 
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input" type="email" placeholder="Email">
+
+                  {% if current_user.is_authenticated %}
+                  <input class="input" type="email" placeholder="Email" required disabled>
+                  {% else %}
+                  <input class="input" type="email" placeholder="Email" required>
+                  {% endif %}
+                  
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
                 </p>
               </div>
+              
               <div class="field">
+              
                 <p class="control">
+                  {% if current_user.is_authenticated %}
+                  <button class="button is-link is-fullwidth mt-2 is-static">Applicants Only</button>
+                  {% else %}
                   <button class="button is-link is-fullwidth mt-2">Start</button>
+                  {% endif %}
                 </p>
+                
               </div>
+              
             </form>
   
           </div>
