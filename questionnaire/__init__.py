@@ -87,10 +87,27 @@ def create_app():
         return User.query.get(int(id))
 
     # APP ROUTES
-    @app.route("/")
-    @app.route("/index")
+    @app.route("/", methods=["GET", "POST"])
     def index():
         """Serve the questionnaire landing page template."""
+        if request.method == "POST":
+
+            email = request.form.get("email")
+
+            try:
+                if email:
+
+                    print("email is valid")
+
+                    # NOTE: start session timer and commit to database
+
+                    return redirect(url_for("form"))
+                else:
+                    raise Exception
+
+            except Exception as e:
+                flash("Invalid Email Address!")
+
         return render_template("index.html")
 
     # APPLICANT PORTAL ROUTES
