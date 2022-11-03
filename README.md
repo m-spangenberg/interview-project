@@ -153,7 +153,7 @@ pip install --user pipenv
 # install the needed dependencies from the piplock file
 pipenv install 
 # or if you prefer use the requirements.txt file
-pipenv run python app.py
+pipenv run flask --app questionnaire --debug run --host=0.0.0.0
 ```
 
 ## Usage

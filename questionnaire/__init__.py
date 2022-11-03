@@ -58,6 +58,25 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    # NOTE: I'm hardcoding the session superuser here just for the sake of testing purposes.
+    with app.app_context():
+
+        # Create Superuser
+        if not User.query.filter_by(email="admin@example.com").first():
+            password = generate_password_hash("adminpassword!")
+            superuser = User(email="admin@example.com", password=password)
+            db.session.add(superuser)
+            db.session.commit()
+        else:
+            ...
+            # superuser = User.query.filter_by(email='admin@example.com').first()
+            # db.session.delete(superuser)
+            # db.session.commit()
+
+        # Populate Questionnaires Table
+        
+
+
     # LOGIN MANAGER MODULE
     login_manager = LoginManager()
     login_manager.login_view = "login"
@@ -69,20 +88,21 @@ def create_app():
 
     # APP ROUTES
     @app.route("/")
+    @app.route("/index")
     def index():
         """Serve the questionnaire landing page template."""
         return render_template("index.html")
 
     # APPLICANT PORTAL ROUTES
     @app.route("/form")
-    #NOTE: only allow users who have entered their email address to access this page
+    # NOTE: only allow users who have entered their email address to access this page
     def form():
         """Serve the questionnaire landing page template."""
         return render_template("form.html")
 
-    @app.route("/confirm", methods=['GET', 'POST'])
+    @app.route("/confirm", methods=["GET", "POST"])
     def confirm():
-        '''Serve account template.'''
+        """Serve account template."""
         return render_template("confirm.html")
 
     # ADMIN PORTAL ROUTES
@@ -93,51 +113,47 @@ def create_app():
 
             email = request.form.get("email")
             password = request.form.get("password")
-
             user = User.query.filter_by(email=email).first()
 
             try:
                 if user:
                     if check_password_hash(user.password, password):
-                        login_user(user, remember=remember)
-                        # Set user as online
-                        current_user.state = True
-                        db.session.commit()
-                        return redirect(url_for("review"))
+                        login_user(user, remember=True)
+
+                        return redirect(url_for("admin"))
                     else:
                         raise Exception
                 else:
                     raise Exception
 
             except Exception as e:
-                flash("Incorrect email or password")
+                flash("Incorrect Email or Password")
 
-        else:
-            return render_template("login.html")
-    
+        return render_template("login.html")
+
     @app.route("/logout")
     @login_required
     def logout():
-        '''Hasta La Vista, Baby!'''
+        """Hasta La Vista, Baby!"""
         logout_user()
-        return redirect(url_for('login'))
+        return redirect(url_for("login"))
 
-    @app.route("/admin", methods=['GET', 'POST'])
+    @app.route("/admin", methods=["GET", "POST"])
     @login_required
     def admin():
-        '''Serve questionnaire review page.'''
+        """Serve questionnaire review page."""
         return render_template("admin.html")
 
-    @app.route("/review", methods=['GET', 'POST'])
+    @app.route("/review", methods=["GET", "POST"])
     @login_required
     def review():
-        '''Serve questionnaire review page.'''
+        """Serve questionnaire review page."""
         return render_template("review.html")
 
-    @app.route("/build", methods=['GET', 'POST'])
+    @app.route("/build", methods=["GET", "POST"])
     @login_required
     def build():
-        '''Serve questionnaire builder page.'''
+        """Serve questionnaire builder page."""
         return render_template("build.html")
 
     # SERVICE ROUTES
@@ -150,11 +166,5 @@ def create_app():
     def server_error(e):
         """Internal Server Error"""
         return make_response(render_template("500.html"), 500)
-
-    # make url_for('index') == url_for('blog.index')
-    # in another app, you might define a separate main index here with
-    # app.route, while giving the blog blueprint a url_prefix, but for
-    # the tutorial the blog will be the main index
-    app.add_url_rule("/", endpoint="index")
 
     return app
