@@ -1,0 +1,42 @@
+{% extends "elements/base.html" %}
+
+{% block title %}Admin Review - BCX Project{% endblock title %}
+
+{% block body %}
+
+{% include "elements/nav.html" %}
+
+<!-- Form Archive Table -->
+<br>
+<section>
+
+    <!-- Forms Archive -->
+    <table class="table is-fullwidth is-bordered is-hoverable is-striped">
+        <thead>
+          <th>#</th>
+          <th>form id</th>
+          <th>creation</th>
+          <th>modify</th>
+        </thead>
+        <tbody>
+
+          <!-- Archived Form Entries -->
+          {% for form in forms %}
+            {% include "elements/nav.html" %}
+            
+          {% else %}
+
+            <!-- No Forms Notification -->
+
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+
+</section>
+<br>
+
+{% include "elements/footer.html" %}
+
+{% endblock body %}
