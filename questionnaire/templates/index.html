@@ -22,15 +22,15 @@
                 <ul class="mb-4">
                   <li><small>You have <strong>5 minutes</strong> to submit your answers.</small></li>
                   <li><small>We only allow <strong>one submission</strong> per email address.</strong></small></li>
-                  <li><small>Your email address is used for <strong>internal reference</strong>.</small></li>
+                  <li><small>Your email address is used as <strong>internal reference</strong>.</small></li>
                 </ul>
 
                 <p class="control has-icons-left has-icons-right">
 
                   {% if current_user.is_authenticated %}
-                  <input class="input" type="email" placeholder="Email" required disabled>
+                  <input class="input" name="email" type="email" placeholder="Email" required disabled>
                   {% else %}
-                  <input class="input" type="email" placeholder="Email" required>
+                  <input class="input" name="email" type="email" placeholder="Email" required>
                   {% endif %}
                   
                   <span class="icon is-small is-left">
@@ -52,6 +52,8 @@
               </div>
               
             </form>
+
+            {% include "elements/notification.html" %}
   
           </div>
         </div>
