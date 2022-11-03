@@ -22,25 +22,37 @@
                     
                     {# context specific buttons based on user authentication #}
                     {% if current_user.is_authenticated %}
-                    <!-- Questionnaire Modification Button -->
-                    <p class="control level">
-                    <a class="button is-link" href="#">
-                        <span class="icon">
-                        <i class="fas fa-file"></i>
-                        </span>
-                        <span>Modify</span>
-                    </a>
-                    </p>
 
-                    <!-- Questionnaire Review Button -->
+                    <!-- Admin Portal Button -->
                     <p class="control">
-                        <a class="button is-link" href="#">
+                        <a class="button is-link" href="/admin">
                         <span class="icon">
                             <i class="fas fa-eye"></i>
                         </span>
-                        <span>Review</span>
+                        <span>Admin</span>
                         </a>
                     </p>
+
+                    <!-- Questionnaire Builder Button -->
+                    <p class="control level">
+                    <a class="button is-link" href="/build">
+                        <span class="icon">
+                        <i class="fas fa-file"></i>
+                        </span>
+                        <span>Build</span>
+                    </a>
+                    </p>
+
+                    <!-- Logout Button -->
+                    <p class="control">
+                        <a class="button is-danger" href="/logout">
+                        <span class="icon">
+                            <i class="fas fa-sign-out"></i>
+                        </span>
+                        <span>Logout</span>
+                        </a>
+                    </p>
+
                     {% else %}
                     <!-- Login To Admin Portal -->
                     <p class="control">
