@@ -3,8 +3,7 @@ from sqlalchemy.sql import func
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
-DB_NAME = "test.db"
-DB_LOCATION = "data/database/"
+DB_NAME = "CX_MARTHINUS_BA_DB"
 
 db = SQLAlchemy()
 
