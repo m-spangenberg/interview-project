@@ -9,7 +9,6 @@ from flask import flash
 from flask import make_response
 from flask import redirect
 from flask import url_for
-from flask import send_from_directory
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from werkzeug.exceptions import BadRequest
@@ -29,7 +28,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
 
-# APPLICATION
+# RELATIVE PACKAGE
 from questionnaire.models import db
 from questionnaire.models import DB_NAME
 from questionnaire.models import Applicant
@@ -74,8 +73,21 @@ def create_app():
         """Serve the questionnaire landing page template."""
         return render_template("index.html", user=current_user)
 
+    # APPLICANT PORTAL ROUTES
+    @app.route("/form")
+    #NOTE: only allow users who have entered their email address to access this page
+    def form():
+        """Serve the questionnaire landing page template."""
+        return render_template("form.html", user=current_user)
+
+    @app.route("/confirm", methods=['GET', 'POST'])
+    def confirm():
+        '''Serve account template.'''
+        return render_template("confirm.html", user=current_user)
+
+    # ADMIN PORTAL ROUTES
     @app.route("/login", methods=["GET", "POST"])
-    def page_login():
+    def login():
         """Serve admin portal's login page template."""
         if request.method == "POST":
 
@@ -102,7 +114,33 @@ def create_app():
 
         else:
             return render_template("login.html", user=current_user)
+    
+    @app.route("/logout")
+    @login_required
+    def logout():
+        '''Hasta La Vista, Baby!'''
+        logout_user()
+        return redirect(url_for('login'))
 
+    @app.route("/admin", methods=['GET', 'POST'])
+    @login_required
+    def admin():
+        '''Serve questionnaire review page.'''
+        return render_template("admin.html", user=current_user)
+
+    @app.route("/review", methods=['GET', 'POST'])
+    @login_required
+    def review():
+        '''Serve questionnaire review page.'''
+        return render_template("review.html", user=current_user)
+
+    @app.route("/build", methods=['GET', 'POST'])
+    @login_required
+    def build():
+        '''Serve questionnaire builder page.'''
+        return render_template("build.html", user=current_user)
+
+    # SERVICE ROUTES
     @app.errorhandler(404)
     def page_not_found(e):
         """Page Not Found"""
