@@ -21,7 +21,7 @@
                 <div class="field is-grouped">
                     
                     {# context specific buttons based on user authentication #}
-                    {% if user.is_authenticated %}
+                    {% if current_user.is_authenticated %}
                     <!-- Questionnaire Modification Button -->
                     <p class="control level">
                     <a class="button is-link" href="#">
