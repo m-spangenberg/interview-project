@@ -7,6 +7,7 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-login = "*"
+sqlalchemy-utils = "*"
 
 [dev-packages]
 black = "*"
