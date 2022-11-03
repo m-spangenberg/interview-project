@@ -168,12 +168,3 @@ admin@example.com
 # password
 adminpassword!
 ```
-
-User Account
-
-```bash
-# username
-dummy@example.com
-# password
-dummypassword!
-```
