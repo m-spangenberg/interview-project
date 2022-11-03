@@ -13,16 +13,16 @@ class Applicant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
 
-class User(db.Model):
-    """superuser table"""
+class User(db.Model, UserMixin):
+    """superuser table for user authentication"""
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
-    password = db.Column(db.String(64))
+    password = db.Column(db.String(128))
 
-class Form(db.Model):
+class FormData(db.Model):
     """from representation table used for view generation"""
     id = db.Column(db.Integer, primary_key=True)
-
+    #user response
 
 class Questions(db.Model):
     """question structure table used by form builder"""
@@ -34,6 +34,7 @@ class Questions(db.Model):
     ]
 
     id = db.Column(db.Integer, primary_key=True)
+    heading = db.Column(db.String(64), default='Question #')
     prompt = db.Column(db.String(256))
     field = db.Column(ChoiceType(FIELDS))
 
