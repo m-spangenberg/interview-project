@@ -3,6 +3,7 @@
 # FLASK AND FLASK SUB-COMPONENTS
 from flask import Flask
 from flask import render_template
+from flask import session
 from flask import jsonify
 from flask import request
 from flask import flash
@@ -84,16 +85,25 @@ def create_app():
 
             email = request.form.get("email")
 
+            email_check = Applicant.query.filter_by(email=email).first()
+
             try:
                 if email:
+                    if email != email_check:
 
-                    print("email is valid")
+                        # TODO: Basic email validation
+                        # TODO: Session expiration and redirect
 
-                    # NOTE: start session timer and commit to database
+                        session["email"] = email
+                        session["timer"] = 0
 
-                    return redirect(url_for("form"))
+                        return redirect(url_for("form"))
+                    else:
+                        raise Exception("Email exists in database!")
                 else:
-                    raise Exception
+                    raise Exception("Invalid Email Address!")
+
+            # TODO: flash specific exception
 
             except Exception as e:
                 flash("Invalid Email Address!")
@@ -102,13 +112,29 @@ def create_app():
 
     # APPLICANT PORTAL ROUTES
     @app.route("/form", methods=["GET", "POST"])
-    # NOTE: only allow users who have entered their email address to access this page
     def form():
         """Construct the questionnaire landing page template."""
+
+        # NOTE:
+        # only applicants who have entered their
+        # email address can access this page
+
+        if "email" not in session:
+            return redirect(url_for("index"))
+
         if request.method == "POST":
 
+            new_applicant= Applicant(
+                email=session["email"]
+            )
+
+            # TODO: Populate ApplicantStats on submission
+
+            db.session.add(new_applicant)
+            db.session.commit()
+
             for i in request.form:
-                print(i)
+                print(str(request.form.get(i)))
 
         testform = FormTest.query.all()
 
