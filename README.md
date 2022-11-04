@@ -1,62 +1,16 @@
 # Form Project
 
-As part of the applicant screening process, I have been tasked with completing a small full-stack project over the course of 72 hours. The project touches on frontend web development basics like HTML, CSS and DOM interaction via JavaScript, as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
-
-## Evaluation
-
-The project will be evaluated on the following criteria:
-
-* Code Reusability
-  * How modular is the codebase and can portions of it be reused easily?
-* Code Maintenance
-  * How difficult is it to keep the code maintained over time?
-* Code Documentation
-  * How well are features and design choices documented in the codebase?
-* Object Orientation
-  * To what degree is OOP being implemented to leverage the benefits of instantiation and inheritance?
-* Database Design
-  * How well thought out is the DB schema, are good practices being implemented in the design?
-* Generics
-  * How flexible are your functions and classes and can they handle mixed types?
-* Method Constructions
-  * Do you make use of constructors?
-* MVC Implementation
-  * Are you making full use of the Mode-View-Controller architecture pattern?
-* Code Structure and Architecture
-  * How understandable and neat is your codebase's layout and the project's structure?
-* Polymorphism
-  * Are you correctly implementing parent-child inheritance?
-
-The subheadings above are my interpretations of the evaluation criteria in relation to Python and the Flask framework.
+As part of the applicant screening process, I have been tasked with completing a small full-stack project. The project touches on frontend web development basics like HTML, CSS and DOM interaction via JavaScript, as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
 
 ## Project Constraints
 
 * The solution must be named: `BCX_{YOUR_FIRSTNAME}_BA_SOL`
-  * Solutions are unique to Visual Studio C# projects
-  * Alternatively, use as the name for the project folder
 * The database must be named: `CX_{YOUR_FIRSTNAME}_BA_DB`
 * Project must tbe shared with the hiring manager and cc'd team members via [WeTransfer](https://wetransfer.com/)
-* The project must be submitted before the **72 hour** deadline
 
 ## Project Specification
 
-### Goal
-
-Create an internal web site that a user can access in order to complete a series of interview questions. The answers given by an applicant should be stored in a database, and be uniquely identifiable by the user's email address.
-
 ### Design Guidelines
-
-**General Specification**
-
-* Avoid static data for questions forms, questions, and answers
-* Users submitted data should be tracked with a unique identifier (email).
-* The solution must be a [question form](https://www.surveymonkey.com/mp/survey-vs-questionnaire/), not a survey.
-
-**Question Form Area**
-
-* Use appropriate input controls for questions answers.
-* Allow user to input their email before starting the question form
-* Question that needs to be configured are the following:
 
   * **Question 1**: Where did you hear from us, and what do you think will make you a
 great asset to the BCX Business Application Department?
@@ -70,20 +24,13 @@ great asset to the BCX Business Application Department?
 
   * **Question Form Area Bonus Criteria**
     * Add a timer that ends the user’s question form session after a [x] period.
-    * Render all website styles look and feel in a single CSS theme class.
 
 **Backend Portal Area**
 
-* Allow access to a separate backend admin portal area.
-* No authentication required, just add a button anywhere to access this area
 * Allow admin to review question form submissions
-* Add button on each question form entry to export the question form with user answers
-to JSON.
-
-  * **Backend Portal Area Bonus Criteria**
-    * Add authentication for an admin user. i.e. username and password
-    * Statistics reports on how long the user takes to complete the survey.
-    * Allow admin to add more questions and answers to question form.
+* Add button on each question form entry to export the question form with user answers to JSON.
+* Statistics reports on how long the user takes to complete the survey.
+* Allow admin to add more questions and answers to question form.
 
 ## Application Flow
 
@@ -112,20 +59,14 @@ Questionnaire Project
 └── review.html
 ```
 
-## Questionnaire & Form Builder
+## Questionnaire Flow
 
-I decided to implement the form builder portion of the project using a scaffolding approach. By using the database as the single source of truth and generating the questionnaire using templates, I am free to perform CRUD operations on a form master table and have the frontend inherit any changes from the database. To get around retro-active access to older forms, user submitted data is stored as a JSON object and reconstituted in the same way as the frontend's questionnaire, except from a single JSON dump instead of queries to SQLite.
+## Database Flow
 
 ## Database Schema
 
 ```sql
 ```
-
-## Extras
-
-Some things I had extra time for:
-
-* fully responsive for mobile
 
 ## Deployment
 
