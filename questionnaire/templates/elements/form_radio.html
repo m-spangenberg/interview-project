@@ -1,0 +1,24 @@
+<div class="card is-shadowless my-2">
+    <header class="card-header has-background-link is-unselectable">
+        <p class="card-header-title is-size-5 has-text-white">
+            Question {{ form.id }}
+        </p>
+    </header>
+    <div class="card-content is-unselectable">
+      <div class="content">
+        {{ form.question }}
+      </div>
+    </div>
+    <footer class="card-footer has-background-light">
+        <div class="mx-2 my-4">
+            <label class="radio">
+              <input type="radio" name="{{ form.id }}">
+              Yes
+            </label>
+            <label class="radio">
+              <input type="radio" name="{{ form.id }}">
+              No
+            </label>
+        </div>
+    </footer>
+</div>

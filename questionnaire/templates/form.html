@@ -6,7 +6,7 @@
 
 {% include "elements/nav.html" %}
 
-<!-- Generated Form Fields -->
+<!-- Form Body -->
 <div class="hero">
     <div class="hero-body">
       <div class="container has-text-centered">
@@ -15,77 +15,20 @@
 
             <form action="" method="POST">
 
-                <!-- testing placeholder -->
-                <div class="card is-shadowless my-2">
-                    <header class="card-header has-background-link is-unselectable">
-                        <p class="card-header-title is-size-5 has-text-white">
-                            Question #1
-                        </p>
-                    </header>
-                    <div class="card-content is-unselectable">
-                      <div class="content">
-                        Where did you hear from us, and what do you think will make you a great asset to the BCX Business Application Department?
-                      </div>
-                    </div>
-                    <footer class="card-footer has-background-light">
-                        <input class="input mx-2 my-2" id="questionfield" name="questionfield" type="text" maxlength="1024" placeholder="Answer...">
-                    </footer>
-                </div>
-
-                <!-- testing placeholder -->
-                <div class="card is-shadowless my-2">
-                    <header class="card-header has-background-link is-unselectable">
-                        <p class="card-header-title is-size-5 has-text-white">
-                            Question #2
-                        </p>
-                    </header>
-                    <div class="card-content is-unselectable">
-                      <div class="content">
-                        How many software solutions did you write in your life?
-                      </div>
-                    </div>
-                    <footer class="card-footer has-background-light">
-                        <div class="select is-fullwidth mx-2 my-2">
-                            <select>
-                              <option value="">Please select an option</option>
-                              <option value="">1 to 5</option>
-                              <option value="">6 -25</option>
-                              <option value="">26 -100</option>
-                              <option value="">101 +</option>
-                            </select>
-                        </div>
-                    </footer>
-                </div>
-
-                <!-- testing placeholder -->
-                <div class="card is-shadowless my-2">
-                    <header class="card-header has-background-link is-unselectable">
-                        <p class="card-header-title is-size-5 has-text-white">
-                            Question #3
-                        </p>
-                    </header>
-                    <div class="card-content is-unselectable">
-                      <div class="content">
-                        Was it fun building a website for an interview?
-                      </div>
-                    </div>
-                    <footer class="card-footer has-background-light">
-                        <div class="mx-2 my-4">
-                            <label class="radio">
-                              <input type="radio" name="answer">
-                              Yes
-                            </label>
-                            <label class="radio">
-                              <input type="radio" name="answer">
-                              No
-                            </label>
-                        </div>
-                    </footer>
-                </div>
+                <!-- Generated Form Fields -->
+                {% for form in testform %}
+                  {% if form.input == 'input' %}
+                    {% include "elements/form_input.html" %}
+                  {% elif form.input == 'select' %}
+                    {% include "elements/form_select.html" %}
+                  {% else %}
+                    {% include "elements/form_radio.html" %}
+                  {% endif %}
+                {% endfor %}
 
                 <div class="my-4">
-                    <button type="submit" class="button my-4 is-link is-fullwidth is-large">Submit</button>
-                  </div>
+                  <button type="submit" class="button my-4 is-link is-fullwidth is-large">Submit</button>
+                </div>
             </form>
   
           </div>

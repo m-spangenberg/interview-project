@@ -1,0 +1,23 @@
+<div class="card is-shadowless my-2">
+    <header class="card-header has-background-link is-unselectable">
+        <p class="card-header-title is-size-5 has-text-white">
+            Question {{ form.id }}
+        </p>
+    </header>
+    <div class="card-content is-unselectable">
+      <div class="content">
+        {{ form.question }}
+      </div>
+    </div>
+    <footer class="card-footer has-background-light">
+        <div class="select is-fullwidth mx-2 my-2">
+            <select name="{{ form.id }}">
+              <option value="">Please select an option</option>
+              <option value="">1 to 5</option>
+              <option value="">6 -25</option>
+              <option value="">26 -100</option>
+              <option value="">101 +</option>
+            </select>
+        </div>
+    </footer>
+</div>
