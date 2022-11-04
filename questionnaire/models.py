@@ -10,23 +10,36 @@ db = SQLAlchemy()
 class Applicant(db.Model):
     """
     applicants table
+
+    NOTE:
+    applicants have a cascading one-to-one relationship with their stats
     """
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    stats = db.relationship('ApplicantStats', back_populates='applicant', uselist=False)
 
 class ApplicantStats(db.Model):
     """
     session statistics for applicants
+
+    NOTE:
+    stats only track whether the user completed the form, when it was completed,
+    and how long it took to complete. Retries are not logged.
     """
     id = db.Column(db.Integer, primary_key=True)
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     state = db.Column(db.Boolean, default=False)
     duration = db.Column(db.Integer, default="0")
+    applicant = db.relationship('Applicant', back_populates='stats')
 
 class User(db.Model, UserMixin):
     """
     users table
+
+    NOTE:
+    added this table for the sake of having a functional login but did not implement
+    a role-based permission system.
     """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
@@ -34,50 +47,62 @@ class User(db.Model, UserMixin):
 
 class FormData(db.Model):
     """
-    answers to questionnaire sessions
+    answers provided by the applicant during the questionnaire session
     """
     id = db.Column(db.Integer, primary_key=True)
+    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
+    answer = db.Column(db.Integer)
+    session_id = db.Column(db.Integer, db.ForeignKey('form_session.id'))
 
 
 class FormSession(db.Model):
     """
-    version of questionnaire accessed by applicant
+    an inner-join table that displays the state of the questionnaire accessed
+    by the applicant joined with the data they provided during their session
+
+    NOTE:
+    the session serves as a join table linking applicant answers and the
+    specific form structure (questions) they engaged with.
     """
     id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
-    history_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
+    #applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
+    #history_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
 
 class FormHistory(db.Model):
     """
-    history of all questionnaires
+    history of all revisions to the questionnaire
     """
     id = db.Column(db.Integer, primary_key=True)
-    session_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
-    #state = db.relationship('FormState')
+    session_id = db.Column(db.Integer, db.ForeignKey('form_session.id'))
+    state = db.relationship('FormState')
 
 class FormState(db.Model):
     """
-    structure of the questionnaire
+    active state of the questionnaire presented to the applicant
     """
     id = db.Column(db.Integer, primary_key=True)
-    #history_id = db.Column(db.Integer, db.ForeignKey('formhistory.id'))
-    #question = db.relationship('FormQuestion')
+    timer = db.Column(db.Integer, default="300")
+    history_id = db.Column(db.Integer, db.ForeignKey('form_history.id'))
+    question = db.relationship('FormQuestion')
 
 class FormQuestion(db.Model):
     """
     questions available to form
     """
     id = db.Column(db.Integer, primary_key=True)
-    #state_id = db.Column(db.Integer, db.ForeignKey('formstate.id'))
+    state_id = db.Column(db.Integer, db.ForeignKey('form_state.id'))
     question = db.Column(db.String(256))
-    #choice = db.relationship('FormChoice')
+    choice = db.relationship('FormInputs')
 
-class FormChoice(db.Model):
+class FormInputs(db.Model):
     """
-    choices available to form questions
+    input types available to form questions
+
+    NOTE:
+    I decided to make input the generic text field choice because of UI/UX considerations.
     """
     id = db.Column(db.Integer, primary_key=True)
-    #question_id = db.Column(db.Integer, db.ForeignKey('formquestion.id'))
+    question_id = db.Column(db.Integer, db.ForeignKey('form_question.id'))
 
     # TODO: perform choice validation to protect integrity
-    choice_type = db.Column(db.String(16))
+    input_type = db.Column(db.String(16))
