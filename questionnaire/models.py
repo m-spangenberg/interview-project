@@ -34,10 +34,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(128))
 
-class FormTest(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    question = db.Column(db.String(256))
-    input = db.Column(db.String(16))
+# class FormTest(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     question = db.Column(db.String(256))
+#     input = db.Column(db.String(16))
 
 # class FormData(db.Model):
 #     """
@@ -57,26 +57,35 @@ class FormTest(db.Model):
 #     data_id = db.Column(db.Integer, db.ForeignKey('form_data.id'))
 #     state_version = db.Column(db.Integer, db.ForeignKey('form_state.version'))
 
-# class FormState(db.Model):
-#     """
-#     state of the questionnaire
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     version = db.Column(db.Integer)
-#     question_id = db.Column(db.Integer, db.ForeignKey('form_question.id'))
+class FormState(db.Model):
+    """
+    state of the questionnaire
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.Integer)
+    question_id = db.Column(db.Integer, db.ForeignKey('form_question.id'))
 
-# class FormQuestion(db.Model):
-#     """
-#     questions available to form
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     question = db.Column(db.String(256))
-#     input_id = db.Column(db.Integer, db.ForeignKey('form_input.id'))
+class FormQuestion(db.Model):
+    """
+    questions available to form
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.String(256))
+    input_id = db.Column(db.Integer, db.ForeignKey('form_input.id'))
     
+class FormInput(db.Model):
+    """
+    input types available to form questions
+    currently: input, select, and radio
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    input_type = db.Column(db.String(16))
+    input_id = db.Column(db.Integer, db.ForeignKey('form_choice.id'))
 
-# class FormInput(db.Model):
-#     """
-#     input types available to form questions
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     input_type = db.Column(db.String(16))
+class FormChoice(db.Model):
+    """
+    choices available to the input types
+    for inputs that require multiple values: radio and select
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    choice = db.Column(db.String(16))
