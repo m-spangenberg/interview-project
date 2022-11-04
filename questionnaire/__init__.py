@@ -33,6 +33,7 @@ from questionnaire.models import db
 from questionnaire.models import DB_NAME
 from questionnaire.models import Applicant
 from questionnaire.models import User
+from questionnaire.models import FormTest
 
 
 def create_app():
@@ -58,23 +59,12 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-    # NOTE: I'm hardcoding the session superuser here just for the sake of testing purposes.
-    with app.app_context():
-
-        # Create Superuser
+        # Create Superuser Dummy Account
         if not User.query.filter_by(email="admin@example.com").first():
             password = generate_password_hash("adminpassword!")
             superuser = User(email="admin@example.com", password=password)
             db.session.add(superuser)
             db.session.commit()
-        else:
-            ...
-            # superuser = User.query.filter_by(email='admin@example.com').first()
-            # db.session.delete(superuser)
-            # db.session.commit()
-
-        # Populate Questionnaires Table
-        
 
 
     # LOGIN MANAGER MODULE
@@ -111,11 +101,18 @@ def create_app():
         return render_template("index.html")
 
     # APPLICANT PORTAL ROUTES
-    @app.route("/form")
+    @app.route("/form", methods=["GET", "POST"])
     # NOTE: only allow users who have entered their email address to access this page
     def form():
-        """Serve the questionnaire landing page template."""
-        return render_template("form.html")
+        """Construct the questionnaire landing page template."""
+        if request.method == "POST":
+
+            for i in request.form:
+                print(i)
+
+        testform = FormTest.query.all()
+
+        return render_template("form.html", testform=testform)
 
     @app.route("/confirm", methods=["GET", "POST"])
     def confirm():
