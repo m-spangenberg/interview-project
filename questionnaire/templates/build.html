@@ -10,29 +10,50 @@
 <br>
 <section>
 
-    <!-- Forms Archive -->
-    <table class="table is-fullwidth is-bordered is-hoverable is-striped">
-        <thead>
-          <th>#</th>
-          <th>form id</th>
-          <th>creation</th>
-          <th>modify</th>
-        </thead>
-        <tbody>
+    <!-- Construct Current State of Questionnaire -->
 
-          <!-- Archived Form Entries -->
-          {% for form in forms %}
-            {% include "elements/nav.html" %}
-            
-          {% else %}
+    <!-- Add Question -->
+    <form class="box is-shadowless has-background-link">
 
-            <!-- No Forms Notification -->
+      <div class="box is-shadowless my-2 mx-2">
 
+        <!-- Question Field -->
+        <div class="field">
+          <label class="label">Modify Questionnaire</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Question...">
+          </div>
+        </div>
+      
+        <!-- Question Input Type -->
+        <div class="select">
+          <select>
+            <option value="input">Input</option>
+            <option value="select">Select</option>
+            <option value="radio">Radio</option>
+          </select>
+        </div>
 
-          {% endfor %}
+        <!-- Add Question -->
+        <button class="button is-link is-pulled-right">
+          <span class="icon is-small">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>Add</span>
+        </button>
 
-        </tbody>
-      </table>
+        <!-- Save -->
+        <button class="button is-link is-pulled-right mr-2">
+          <span class="icon is-small">
+            <i class="fas fa-floppy-disk"></i>
+          </span>
+          <span>Save</span>
+        </button>
+        
+
+      </div>
+
+    </form>
 
 </section>
 <br>
