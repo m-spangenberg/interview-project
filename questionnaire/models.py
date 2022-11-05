@@ -32,13 +32,12 @@ class FormSession(db.Model):
     applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
     answer = db.Column(db.String(1024))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
-    state_id = db.Column(db.Integer, db.ForeignKey('form_state.id'))
-    state = db.relationship('FormState', backref='parents')
+    # NOTE: last minute band-aid
+    question = db.Column(db.String(256))
 
 class FormState(db.Model):
     """
     state of the questionnaire
-    many-to-one relationship with FormSession referencing FormState version
     """
     id = db.Column(db.Integer, primary_key=True)
     version = db.Column(db.Integer)
