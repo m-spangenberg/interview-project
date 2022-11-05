@@ -16,13 +16,16 @@
             <form action="" method="POST">
 
                 <!-- Generated Form Fields -->
-                {% for form in testform %}
-                  {% if form.input == 'input' %}
+                {% for form in forms %}
+                  {% if form.input_type == 'input' %}
                     {% include "elements/form_input.html" %}
-                  {% elif form.input == 'select' %}
+                  {% elif form.input_type == 'select' %}
                     {% include "elements/form_select.html" %}
-                  {% else %}
+                  {% elif form.input_type == 'radio' %}
                     {% include "elements/form_radio.html" %}
+                  {% else %}
+                    <!-- No Questions Notification -->
+                    <p class="is-size-4 has-weight-bold">There are currently no questions on record.</p>
                   {% endif %}
                 {% endfor %}
 

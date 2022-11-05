@@ -11,13 +11,17 @@
     </div>
     <footer class="card-footer has-background-light">
         <div class="select is-fullwidth mx-2 my-2">
-            <select name="{{ form.id }}">
+
+            {% set choices = form.choice %}
+            {% set selections = choices.split(';') %}
+
+            <select name="{{ form.id }}" required>
               <option value="">Please select an option</option>
-              <option value="a value">1 to 5</option>
-              <option value="a value1">6 -25</option>
-              <option value="a value2">26 -100</option>
-              <option value="a value3">101 +</option>
+              {% for selection in selections %}
+                <option value="{{ selection }}">{{ selection }}</option>
+              {% endfor %}
             </select>
+
         </div>
     </footer>
 </div>

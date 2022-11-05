@@ -11,14 +11,16 @@
     </div>
     <footer class="card-footer has-background-light">
         <div class="mx-2 my-4">
+
+            {% set choices = form.choice %}
+            {% set radios = choices.split(';') %}
+
+            {% for radio in radios %}
             <label class="radio">
-              <input type="radio" name="{{ form.id }}">
-              Yes
+              <input type="radio" name="{{ form.id }}" value="{{ radio }}" required>
+              {{ radio|title }}
             </label>
-            <label class="radio">
-              <input type="radio" name="{{ form.id }}">
-              No
-            </label>
+            {% endfor %}
         </div>
     </footer>
 </div>

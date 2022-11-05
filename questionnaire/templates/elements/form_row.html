@@ -1,24 +1,36 @@
 <tr>
     <td class="is-hidden-mobile">9999</td>
-    <td>test@example.com</td>
-    <td class="is-hidden-mobile">00-00-00 00:00</td>
+    <td>{{ form.applicant_id }}</td>
+    <td class="is-hidden-mobile">{{ form.date }}</td>
     <td>
+      
       <div class="buttons">
-        <button class="button is-small">
-          <span class="icon has-text-link is-small">
-            <i class="fas fa-eye fa-2x"></i>
-          </span>
-        </button>
-        <button class="button is-small">
-          <span class="icon has-text-link is-small">
-            <i class="fas fa-cloud-arrow-down fa-2x"></i>
-          </span>
-        </button>
-        <button class="button is-small">
-          <span class="icon has-text-danger is-small">
-            <i class="fas fa-trash fa-2x"></i>
-          </span>
-        </button>
+
+        <form action="" method="POST" name="review-form">
+          <button class="button is-small">
+            <span class="icon has-text-link is-small">
+              <i class="fas fa-eye fa-2x"></i>
+            </span>
+          </button>
+        </form>
+
+        <form action="" method="POST" name="export-form">
+          <button class="button is-small">
+            <span class="icon has-text-link is-small">
+              <i class="fas fa-cloud-arrow-down fa-2x"></i>
+            </span>
+          </button>
+        </form>
+
+        <form action="" method="POST" name="delete-form">
+          <button class="button is-small">
+            <span class="icon has-text-danger is-small">
+              <i class="fas fa-trash fa-2x"></i>
+            </span>
+            <input type="hidden" id="delete-form" name="{{ form.applicant_id }}" value="{{ form.applicant_id }}">
+          </button>
+        </form>
+
       </div>
     </td>
 </tr>

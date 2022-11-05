@@ -8,30 +8,6 @@ As part of the applicant screening process, I have been tasked with completing a
 * The database must be named: `CX_{YOUR_FIRSTNAME}_BA_DB`
 * Project must tbe shared with the hiring manager and cc'd team members via [WeTransfer](https://wetransfer.com/)
 
-## Project Specification
-
-### Design Guidelines
-
-  * **Question 1**: Where did you hear from us, and what do you think will make you a
-great asset to the BCX Business Application Department?
-    * Respond text characters max length 1024
-
-  * **Question 2**: How many software solutions did you write in your life?
-    * Respond with options: 1 to 5, 6 -25, 26 -100, 101 +
-
-  * **Question 3**: Was it fun building a website for an interview?
-    * Response with Yes/No
-
-  * **Question Form Area Bonus Criteria**
-    * Add a timer that ends the user’s question form session after a [x] period.
-
-**Backend Portal Area**
-
-* Allow admin to review question form submissions
-* Add button on each question form entry to export the question form with user answers to JSON.
-* Statistics reports on how long the user takes to complete the survey.
-* Allow admin to add more questions and answers to question form.
-
 ## Application Flow
 
 The flow pattern during usage by either an applicant in the questionnaire portal or a privileged user in the admin portal.
@@ -66,6 +42,83 @@ Questionnaire Project
 ## Database Schema
 
 ```sql
+```
+
+## Database Models Considerations
+
+The data model below was my proposed solution to driving the form generation in the frontend and still be able to modify the existing form's state while maintaining review capabilities but I ran out of time to normalize and extend the database structure in a way that allows for this sort of decoupling.
+
+```py
+class Applicant(db.Model):
+    """
+    applicants table with email as the requested primary key
+    """
+    email = db.Column(db.String(64), primary_key=True, unique=True, nullable=False)
+    stats = db.relationship('ApplicantStats', back_populates='applicant', uselist=False)
+
+class ApplicantStats(db.Model):
+    """
+    session statistics for applicants
+    in a one-to-one relationship with the Applicant table
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    state = db.Column(db.Boolean, default=False)
+    duration = db.Column(db.Integer, default="0")
+    applicant = db.relationship('Applicant', back_populates='stats')
+
+class User(db.Model, UserMixin):
+    """
+    superusers table for backend access
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True)
+    password = db.Column(db.String(128))
+
+class FormSession(db.Model):
+    """
+    state of the the applicant's session
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
+    answer = db.Column(db.String(1024))
+    state_id = db.Column(db.Integer, db.ForeignKey('form_state.version'))
+    state = db.relationship('FormState', backref='parents')
+
+class FormState(db.Model):
+    """
+    state of the questionnaire
+    in a many-to-one relationship with FormSession
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.Integer)
+    question_id = db.Column(db.Integer, db.ForeignKey("form_question.id"))
+    input_id = db.Column(db.Integer, db.ForeignKey("form_input.id"))
+    choice_id = db.Column(db.Integer, db.ForeignKey("form_choice.id"))
+
+class FormQuestion(db.Model):
+    """
+    questions available to form
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.String(256))
+    
+class FormInput(db.Model):
+    """
+    input types available to form questions
+    currently: input, select, and radio
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    input_type = db.Column(db.String(32))
+
+class FormChoice(db.Model):
+    """
+    choices available to the input types
+    for inputs that require multiple values: radio and select
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    choice = db.Column(db.String(64))
 ```
 
 ## Deployment

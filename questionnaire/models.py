@@ -11,81 +11,37 @@ class Applicant(db.Model):
     """
     applicants table
     """
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, nullable=False)
-    stats = db.relationship('ApplicantStats', back_populates='applicant', uselist=False)
-
-class ApplicantStats(db.Model):
-    """
-    session statistics for applicants
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    email = db.Column(db.String(64), primary_key=True, unique=True, nullable=False)
     state = db.Column(db.Boolean, default=False)
     duration = db.Column(db.Integer, default="0")
-    applicant = db.relationship('Applicant', back_populates='stats')
 
 class User(db.Model, UserMixin):
     """
-    users table
+    superusers table
     """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(128))
 
-# class FormTest(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     question = db.Column(db.String(256))
-#     input = db.Column(db.String(16))
-
-# class FormData(db.Model):
-#     """
-#     answers provided by the applicant during the questionnaire session
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
-#     answer = db.Column(db.Integer)
-#     session_id = db.Column(db.Integer, db.ForeignKey('form_session.id'))
-
-# class FormSession(db.Model):
-#     """
-#     state of the the applicant's session
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
-#     data_id = db.Column(db.Integer, db.ForeignKey('form_data.id'))
-#     state_version = db.Column(db.Integer, db.ForeignKey('form_state.version'))
+class FormSession(db.Model):
+    """
+    state of the the applicant's session
+    maximum answer VARCHAR set to 1024
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
+    answer = db.Column(db.String(1024))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    state_id = db.Column(db.Integer, db.ForeignKey('form_state.version'))
+    state = db.relationship('FormState', backref='parents')
 
 class FormState(db.Model):
     """
     state of the questionnaire
+    many-to-one relationship with FormSession referencing FormState version
     """
     id = db.Column(db.Integer, primary_key=True)
     version = db.Column(db.Integer)
-    question_id = db.Column(db.Integer, db.ForeignKey('form_question.id'))
-
-class FormQuestion(db.Model):
-    """
-    questions available to form
-    """
-    id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(256))
-    input_id = db.Column(db.Integer, db.ForeignKey('form_input.id'))
-    
-class FormInput(db.Model):
-    """
-    input types available to form questions
-    currently: input, select, and radio
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    input_type = db.Column(db.String(16))
-    input_id = db.Column(db.Integer, db.ForeignKey('form_choice.id'))
-
-class FormChoice(db.Model):
-    """
-    choices available to the input types
-    for inputs that require multiple values: radio and select
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    choice = db.Column(db.String(16))
+    input_type = db.Column(db.String(32))
+    choice = db.Column(db.String(64))

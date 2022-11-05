@@ -12,8 +12,6 @@ from flask import redirect
 from flask import url_for
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
-from werkzeug.exceptions import BadRequest
-from markupsafe import escape
 
 # USER AUTHENTICATION MODULE
 from flask_login import LoginManager
@@ -27,14 +25,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 # STANDARD LIBRARY
 import os
+from datetime import timedelta
 from datetime import datetime
 
-# RELATIVE PACKAGE
+# DATABASE MODELS
 from questionnaire.models import db
 from questionnaire.models import DB_NAME
 from questionnaire.models import Applicant
 from questionnaire.models import User
-from questionnaire.models import FormTest
+from questionnaire.models import FormSession
+from questionnaire.models import FormState
 
 
 def create_app():
@@ -58,15 +58,46 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
+
+        # Create all database models
         db.create_all()
 
-        # Create Superuser Dummy Account
+        # First start defaults
         if not User.query.filter_by(email="admin@example.com").first():
+
+            # Create Superuser
             password = generate_password_hash("adminpassword!")
             superuser = User(email="admin@example.com", password=password)
             db.session.add(superuser)
-            db.session.commit()
 
+            # Create form components
+            # NOTE: using version=1 here as a placeholder for versioning from admin portal
+            db.session.add(
+                FormState(
+                    version=1,
+                    question="Where did you hear from us, and what do you think will make you a great asset to the BCX Business Application Department?",
+                    input_type="input",
+                    choice=None,
+                )
+            )
+            db.session.add(
+                FormState(
+                    version=1,
+                    question="How many software solutions did you write in your life?",
+                    input_type="select",
+                    choice="1 to 5;6 -25;26 -100;101 +",
+                )
+            )
+            db.session.add(
+                FormState(
+                    version=1,
+                    question="Was it fun building a website for an interview?",
+                    input_type="radio",
+                    choice="yes;no",
+                )
+            )
+
+            db.session.commit()
 
     # LOGIN MANAGER MODULE
     login_manager = LoginManager()
@@ -81,29 +112,35 @@ def create_app():
     @app.route("/", methods=["GET", "POST"])
     def index():
         """Serve the questionnaire landing page template."""
+
         if request.method == "POST":
 
-            email = request.form.get("email")
-
-            email_check = Applicant.query.filter_by(email=email).first()
+            email = str(request.form.get("email"))
+            
+            # check for the applicant's email in the database
+            try:
+                email_check = Applicant.query.filter_by(email=email).first()
+                if email_check.email is not None:
+                    email_exists = str(email_check.email)
+            except AttributeError:
+                email_exists = None
 
             try:
                 if email:
-                    if email != email_check:
 
-                        # TODO: Basic email validation
-                        # TODO: Session expiration and redirect
+                    # prevent applicant from resubmitting questionnaire
+                    if email != email_exists:
 
+                        # Set session timeouts for applicant
+                        session.permanent = True
+                        app.permanent_session_lifetime = timedelta(minutes=5)
                         session["email"] = email
-                        session["timer"] = 0
 
                         return redirect(url_for("form"))
                     else:
                         raise Exception("Email exists in database!")
                 else:
                     raise Exception("Invalid Email Address!")
-
-            # TODO: flash specific exception
 
             except Exception as e:
                 flash("Invalid Email Address!")
@@ -115,34 +152,47 @@ def create_app():
     def form():
         """Construct the questionnaire landing page template."""
 
-        # NOTE:
-        # only applicants who have entered their
-        # email address can access this page
-
+        # Limit access to sessions that have set their email address
+        # sessions auto-expire after 5 minutes
         if "email" not in session:
             return redirect(url_for("index"))
 
         if request.method == "POST":
 
-            new_applicant= Applicant(
-                email=session["email"]
-            )
+            # for every question in the returned request object
+            # create a versioned entry in the FormSession table
+            for answer in request.form:
 
-            # TODO: Populate ApplicantStats on submission
+                new_session = FormSession(
+                    applicant_id=str(session["email"]),
+                    answer=str(request.form.get(answer)),
+                    state_id=1
+                )
+                db.session.add(new_session)
+                db.session.commit()
 
+            # store the applicant's info in the database
+            new_applicant = Applicant(
+                email=str(session["email"]),
+                state = 1,
+                # TODO: implement session timer for duration
+                )
+            
             db.session.add(new_applicant)
             db.session.commit()
 
-            for i in request.form:
-                print(str(request.form.get(i)))
+            # invalidate session and redirect applicant to index
+            session.clear()
 
-        testform = FormTest.query.all()
+            return redirect(url_for("confirm"))
+   
+        forms = FormState.query.filter_by(version=1).all()
 
-        return render_template("form.html", testform=testform)
+        return render_template("form.html", forms=forms)
 
     @app.route("/confirm", methods=["GET", "POST"])
     def confirm():
-        """Serve account template."""
+        """Serve confirmation template."""
         return render_template("confirm.html")
 
     # ADMIN PORTAL ROUTES
@@ -182,7 +232,31 @@ def create_app():
     @login_required
     def admin():
         """Serve questionnaire review page."""
-        form_archive = [1,2,3,4,5,6]
+
+        if request.method == "POST":
+
+            try:
+                # on delete submission
+                if "delete-form" in request.form:
+                    # TODO: cascade all and delete orphans in database
+                    # Query applicant based on hidden input value
+                    db.session.delete(archived_form)
+
+                elif "review-form" in request.form:
+                    return redirect(url_for("review"))
+
+                elif "export-form" in request.form:
+                    # TODO: generate JSON object from SQL and provide as .json download file
+
+                else:
+                    raise Exception("Unable to Delete Questionnaire!")
+
+            except Exception as e:
+                flash("Incorrect Email or Password")
+
+        # pull all sessions in to display in admin portal
+        form_archive = FormSession.query.group_by(FormSession.applicant_id)
+
         return render_template("admin.html", form_archive=form_archive)
 
     @app.route("/review", methods=["GET", "POST"])
@@ -198,6 +272,9 @@ def create_app():
         return render_template("build.html")
 
     # SERVICE ROUTES
+
+    # TODO: build JSON exporter
+
     @app.errorhandler(404)
     def page_not_found(e):
         """Page Not Found"""
