@@ -15,21 +15,8 @@
 
           <!-- Generated and Filled Form Fields -->
           {% for form in forms %}
-            {% if form.input_type == 'input' %}
-              {% include "elements/form_input.html" %}
-            {% elif form.input_type == 'select' %}
-              {% include "elements/form_select.html" %}
-            {% elif form.input_type == 'radio' %}
-              {% include "elements/form_radio.html" %}
-            {% else %}
-              <!-- No Questions Notification -->
-              <p class="is-size-4 has-weight-bold">There are currently no questions on record.</p>
-            {% endif %}
+              {% include "elements/form_answer.html" %}
           {% endfor %}
-
-          <div class="my-4">
-            <button type="submit" class="button my-4 is-link is-fullwidth is-large">Submit</button>
-          </div>
 
         </div>
       </div>

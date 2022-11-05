@@ -12,6 +12,7 @@ from flask import redirect
 from flask import url_for
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from markupsafe import escape
 
 # USER AUTHENTICATION MODULE
 from flask_login import LoginManager
@@ -244,8 +245,11 @@ def create_app():
 
                 elif "review-form" in request.form:
                     # TODO: query and build related form's layout
-                    
-                    return redirect(url_for("review", forms=forms))
+                    # TODO: swap out user email for a UUID
+
+                    email = request.form.get("review-form")
+                 
+                    return redirect(url_for("review"))
 
                 elif "export-form" in request.form:
                     # TODO: generate JSON object from SQL and provide as .json download file
@@ -263,11 +267,15 @@ def create_app():
 
         return render_template("admin.html", form_archive=form_archive)
 
-    @app.route("/review", methods=["GET", "POST"])
+    # NOTE: would rather use a UUID than email
+    @app.route("/review")
     @login_required
     def review():
         """Serve questionnaire review page."""
-        return render_template("review.html")
+        applicant_id = escape('test@example.com')
+        forms = FormSession.query.filter(FormSession.applicant_id.endswith(applicant_id)).all()
+
+        return render_template("review.html", forms=forms)
 
     @app.route("/build", methods=["GET", "POST"])
     @login_required
