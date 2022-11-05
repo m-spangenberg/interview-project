@@ -2,11 +2,7 @@
 
 As part of the applicant screening process, I have been tasked with completing a small full-stack project. The project touches on frontend web development basics like HTML, CSS and DOM interaction via JavaScript, as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
 
-## Project Constraints
-
 * The solution must be named: `BCX_{YOUR_FIRSTNAME}_BA_SOL`
-* The database must be named: `CX_{YOUR_FIRSTNAME}_BA_DB`
-* Project must tbe shared with the hiring manager and cc'd team members via [WeTransfer](https://wetransfer.com/)
 
 ## Application Flow
 
@@ -16,24 +12,6 @@ The flow pattern during usage by either an applicant in the questionnaire portal
 
 
 ## Template Inheritance Diagram
-
-```bash
-Questionnaire Project
-│
-├── 404.html
-├── 500.html
-├── build.html
-├── confirm.html
-├── elements
-│   ├── base.html
-│   ├── footer.html
-│   ├── form_row.html
-│   └── nav.html
-├── form.html
-├── forms.html
-├── index.html
-└── review.html
-```
 
 ## Questionnaire Flow
 
