@@ -12,6 +12,7 @@ from flask import redirect
 from flask import url_for
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from werkzeug.exceptions import BadRequest
 from markupsafe import escape
 
 # USER AUTHENTICATION MODULE
@@ -29,6 +30,9 @@ import os
 from datetime import timedelta
 from datetime import datetime
 
+# APPLICATION MODULES
+from .helper import check_email
+
 # DATABASE MODELS
 from questionnaire.models import db
 from questionnaire.models import DB_NAME
@@ -44,13 +48,14 @@ def create_app():
         __name__,
         instance_relative_config=True,
     )
+
     app.config["DEBUG"] = True
     app.config["SECRET_KEY"] = b"thisIsNotAProductionApp"
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-    # Check that the apps instance folder is created
+    # Make sure the instance folder is created to store the database
     try:
         os.makedirs(app.instance_path)
     except OSError:
@@ -76,7 +81,8 @@ def create_app():
             db.session.add(
                 FormState(
                     version=1,
-                    question="Where did you hear from us, and what do you think will make you a great asset to the BCX Business Application Department?",
+                    question="Where did you hear from us, and what do you think will make\
+                         you a great asset to the BCX Business Application Department?",
                     input_type="input",
                     choice=None,
                 )
@@ -101,6 +107,7 @@ def create_app():
             db.session.commit()
 
     # LOGIN MANAGER MODULE
+
     login_manager = LoginManager()
     login_manager.login_view = "login"
     login_manager.init_app(app)
@@ -110,6 +117,7 @@ def create_app():
         return User.query.get(int(id))
 
     # APP ROUTES
+
     @app.route("/", methods=["GET", "POST"])
     def index():
         """Serve the questionnaire landing page template."""
@@ -117,20 +125,14 @@ def create_app():
         if request.method == "POST":
 
             email = str(request.form.get("email"))
-            
-            # check for the applicant's email in the database
-            try:
-                email_check = Applicant.query.filter_by(email=email).first()
-                if email_check.email is not None:
-                    email_exists = str(email_check.email)
-            except AttributeError:
-                email_exists = None
 
             try:
                 if email:
 
                     # prevent applicant from resubmitting questionnaire
-                    if email != email_exists:
+                    # by checking for the their email in the database
+
+                    if email != check_email(email):
 
                         # Set session timeouts for applicant
                         session.permanent = True
@@ -148,13 +150,13 @@ def create_app():
 
         return render_template("index.html")
 
-    # APPLICANT PORTAL ROUTES
     @app.route("/form", methods=["GET", "POST"])
     def form():
         """Construct the questionnaire landing page template."""
 
         # Limit access to sessions that have set their email address
         # sessions auto-expire after 5 minutes
+
         if "email" not in session:
             return redirect(url_for("index"))
 
@@ -162,12 +164,13 @@ def create_app():
 
             # for every question in the returned request object
             # create a versioned entry in the FormSession table
+
             for answer in request.form:
 
                 new_session = FormSession(
                     applicant_id=str(session["email"]),
                     answer=str(request.form.get(answer)),
-                    question=str(request.form.get('question'))
+                    question=str(request.form.get("question")),
                 )
                 db.session.add(new_session)
                 db.session.commit()
@@ -175,18 +178,20 @@ def create_app():
             # store the applicant's info in the database
             new_applicant = Applicant(
                 email=str(session["email"]),
-                state = 1,
+                state=1,
                 # TODO: implement session timer for duration
-                )
-            
+            )
+
             db.session.add(new_applicant)
             db.session.commit()
 
-            # invalidate session and redirect applicant to index
+            # invalidate session to prevent applicants from
+            # trying to revisit the questionnaire page after submission
+
             session.clear()
 
             return redirect(url_for("confirm"))
-   
+
         forms = FormState.query.filter_by(version=1).all()
 
         return render_template("form.html", forms=forms)
@@ -196,7 +201,8 @@ def create_app():
         """Serve confirmation template."""
         return render_template("confirm.html")
 
-    # ADMIN PORTAL ROUTES
+    # AUTHENTICATED ROUTES
+
     @app.route("/login", methods=["GET", "POST"])
     def login():
         """Serve admin portal's login page template."""
@@ -240,7 +246,7 @@ def create_app():
                 if "delete-form" in request.form:
                     # TODO: cascade all and delete orphans in database
                     # Query applicant based on hidden input value
-                    #db.session.delete(archived_form)
+                    # db.session.delete(archived_form)
                     ...
 
                 elif "review-form" in request.form:
@@ -248,7 +254,7 @@ def create_app():
                     # TODO: swap out user email for a UUID
 
                     email = request.form.get("review-form")
-                 
+
                     return redirect(url_for("review"))
 
                 elif "export-form" in request.form:
@@ -268,14 +274,19 @@ def create_app():
         return render_template("admin.html", form_archive=form_archive)
 
     # NOTE: would rather use a UUID than email
+
     @app.route("/review")
     @login_required
     def review():
         """Serve questionnaire review page."""
+
         # NOTE: have to hardcode or I wont make deadline - need to pass data from admin portal to review page
         # Question is broken on submission side, not indexing through input questions properly.
+
         applicant_id = "spangenbergmarthinus@gmail.com"
-        forms = FormSession.query.filter(FormSession.applicant_id.endswith(applicant_id)).all()
+        forms = FormSession.query.filter(
+            FormSession.applicant_id.endswith(applicant_id)
+        ).all()
 
         return render_template("review.html", forms=forms)
 
@@ -287,7 +298,10 @@ def create_app():
 
     # SERVICE ROUTES
 
-    # TODO: build JSON exporter
+    @app.errorhandler(400)
+    def bad_request(e):
+        """Page Not Found"""
+        return make_response(render_template("400.html"), 400)
 
     @app.errorhandler(404)
     def page_not_found(e):
@@ -298,5 +312,43 @@ def create_app():
     def server_error(e):
         """Internal Server Error"""
         return make_response(render_template("500.html"), 500)
+
+    # API ENDPOINTS
+
+    # NOTE:
+    # This endpoint doesn't have any authentication or
+    # error handling but I've used what I understand to be the correct
+    # RESTful convention to structure the endpoint
+    # https://restfulapi.net/resource-naming/
+
+    @app.get("/api/v1/questionnaire/<string:applicantid>/json")
+    @login_required
+    def get_json_raw(applicantid):
+
+        # TODO:
+        # render the response as a pretty-printed json response
+
+        return jsonify(
+            {
+                "identifier": 1,
+                "email": 2,
+            }
+        )
+
+    @app.get("/api/v1/questionnaire/<string:applicantid>/json/download")
+    @login_required
+    def get_json_file(applicantid):
+
+        # TODO:
+        # implement sendfile in such a way that it creates a .json file
+        # and offers it up to the the client's browser for download
+        # https://flask.palletsprojects.com/en/2.2.x/api/#flask.send_file
+
+        return jsonify(
+            {
+                "identifier": 1,
+                "email": 2,
+            }
+        )
 
     return app
