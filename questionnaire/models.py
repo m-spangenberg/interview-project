@@ -11,34 +11,41 @@ class Applicant(db.Model):
     """
     applicants table
     """
+
     email = db.Column(db.String(64), primary_key=True, unique=True, nullable=False)
     state = db.Column(db.Boolean, default=False)
     duration = db.Column(db.Integer, default="0")
+
 
 class User(db.Model, UserMixin):
     """
     superusers table
     """
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(128))
+
 
 class FormSession(db.Model):
     """
     state of the the applicant's session
     maximum answer VARCHAR set to 1024
     """
+
     id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
+    applicant_id = db.Column(db.String, db.ForeignKey("applicant.email"))
     answer = db.Column(db.String(1024))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     # NOTE: last minute band-aid
     question = db.Column(db.String(256))
 
+
 class FormState(db.Model):
     """
     state of the questionnaire
     """
+
     id = db.Column(db.Integer, primary_key=True)
     version = db.Column(db.Integer)
     question = db.Column(db.String(256))
