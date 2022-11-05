@@ -6,36 +6,36 @@
 
 {% include "elements/nav.html" %}
 
-<!-- Form Archive Table -->
-<br>
-<section>
+<!-- Applicant Questionnaire Review-->
+<div class="hero">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="columns is-centered">
+        <div class="column is-two-thirds-desktop is-full-mobile">
 
-    <!-- Forms Archive -->
-    <table class="table is-fullwidth is-bordered is-hoverable is-striped">
-        <thead>
-          <th>#</th>
-          <th>form id</th>
-          <th>creation</th>
-          <th>modify</th>
-        </thead>
-        <tbody>
-
-          <!-- Archived Form Entries -->
+          <!-- Generated and Filled Form Fields -->
           {% for form in forms %}
-            {% include "elements/nav.html" %}
-            
-          {% else %}
-
-            <!-- No Forms Notification -->
-
-
+            {% if form.input_type == 'input' %}
+              {% include "elements/form_input.html" %}
+            {% elif form.input_type == 'select' %}
+              {% include "elements/form_select.html" %}
+            {% elif form.input_type == 'radio' %}
+              {% include "elements/form_radio.html" %}
+            {% else %}
+              <!-- No Questions Notification -->
+              <p class="is-size-4 has-weight-bold">There are currently no questions on record.</p>
+            {% endif %}
           {% endfor %}
 
-        </tbody>
-      </table>
+          <div class="my-4">
+            <button type="submit" class="button my-4 is-link is-fullwidth is-large">Submit</button>
+          </div>
 
-</section>
-<br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% include "elements/footer.html" %}
 

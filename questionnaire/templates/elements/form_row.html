@@ -1,7 +1,7 @@
 <tr>
-    <td class="is-hidden-mobile">9999</td>
     <td>{{ form.applicant_id }}</td>
     <td class="is-hidden-mobile">{{ form.date }}</td>
+    <td class="is-hidden-mobile">00:00</td>
     <td>
       
       <div class="buttons">
@@ -12,6 +12,9 @@
               <i class="fas fa-eye fa-2x"></i>
             </span>
           </button>
+          <span>
+            <input type="hidden" id="review-form" name="review-form" value="{{ form.applicant_id }}">
+          </span>
         </form>
 
         <form action="" method="POST" name="export-form">
@@ -20,6 +23,9 @@
               <i class="fas fa-cloud-arrow-down fa-2x"></i>
             </span>
           </button>
+          <span>
+            <input type="hidden" id="export-form" name="export-form" value="{{ form.applicant_id }}">
+          </span>
         </form>
 
         <form action="" method="POST" name="delete-form">
@@ -27,8 +33,10 @@
             <span class="icon has-text-danger is-small">
               <i class="fas fa-trash fa-2x"></i>
             </span>
-            <input type="hidden" id="delete-form" name="{{ form.applicant_id }}" value="{{ form.applicant_id }}">
           </button>
+          <span>
+            <input type="hidden" id="delete-form" name="delete-form" value="{{ form.applicant_id }}">
+          </span>
         </form>
 
       </div>
