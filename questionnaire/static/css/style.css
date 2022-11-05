@@ -21,9 +21,13 @@ footer {
 }
 
 .ms_actionbuttons {
-    width:135px;
+    width:145px;
 }
 
 .ms_countfield {
     width:50px;
+}
+
+.ms_datefield {
+    width:200px;
 }
