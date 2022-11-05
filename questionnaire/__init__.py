@@ -244,6 +244,7 @@ def create_app():
 
                 elif "review-form" in request.form:
                     # TODO: query and build related form's layout
+                    
                     return redirect(url_for("review", forms=forms))
 
                 elif "export-form" in request.form:
