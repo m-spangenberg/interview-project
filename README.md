@@ -2,26 +2,6 @@
 
 As part of the applicant screening process, I have been tasked with completing a small full-stack project. The project touches on frontend web development basics like HTML, CSS and DOM interaction via JavaScript, as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
 
-* The solution must be named: `BCX_{YOUR_FIRSTNAME}_BA_SOL`
-
-## Application Flow
-
-The flow pattern during usage by either an applicant in the questionnaire portal or a privileged user in the admin portal.
-
-![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
-
-
-## Template Inheritance Diagram
-
-## Questionnaire Flow
-
-## Database Flow
-
-## Database Schema
-
-```sql
-```
-
 ## Database Models Considerations
 
 The data model below was my proposed solution to driving the form generation in the frontend and still be able to modify the existing form's state while maintaining review capabilities but I ran out of time to normalize and extend the database structure in a way that allows for this sort of decoupling.
@@ -101,26 +81,7 @@ class FormChoice(db.Model):
 
 ## Deployment
 
-### Docker Instructions
-
-This project has been packaged into a Docker image to showcase what a standard deployment workflow would look like in a development environment. The image is available at TODO:INSERT DOWNLOAD LINK, deploying it in your own environment should be easy as long as you have Docker installed. If you prefer not to use Docker, please use the alternate instructions.
-
-Optional: Build image from source
-
-```bash
-docker build --tag forms-project .
-```
-
-Deploy container via Docker Run CLI
-
-```bash
-# start the container in detached mode with network bound to port 5000 and destroy it on exit
-sudo docker run -rm -d -p 5000:5000 --name forms forms-project
-# populate the database with forms
-sudo 
-```
-
-### Alternate Instructions
+### Instructions
 
 ```bash
 # clone this repository
@@ -146,3 +107,5 @@ admin@example.com
 # password
 adminpassword!
 ```
+
+Hopefully the website design is self-documenting.
