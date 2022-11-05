@@ -167,7 +167,7 @@ def create_app():
                 new_session = FormSession(
                     applicant_id=str(session["email"]),
                     answer=str(request.form.get(answer)),
-                    state_id=1
+                    question=str(request.form.get('question'))
                 )
                 db.session.add(new_session)
                 db.session.commit()
@@ -272,7 +272,9 @@ def create_app():
     @login_required
     def review():
         """Serve questionnaire review page."""
-        applicant_id = escape('test@example.com')
+        # NOTE: have to hardcode or I wont make deadline - need to pass data from admin portal to review page
+        # Question is broken on submission side, not indexing through input questions properly.
+        applicant_id = "spangenbergmarthinus@gmail.com"
         forms = FormSession.query.filter(FormSession.applicant_id.endswith(applicant_id)).all()
 
         return render_template("review.html", forms=forms)
