@@ -236,23 +236,26 @@ def create_app():
         if request.method == "POST":
 
             try:
-                # on delete submission
                 if "delete-form" in request.form:
                     # TODO: cascade all and delete orphans in database
                     # Query applicant based on hidden input value
-                    db.session.delete(archived_form)
+                    #db.session.delete(archived_form)
+                    ...
 
                 elif "review-form" in request.form:
-                    return redirect(url_for("review"))
+                    # TODO: query and build related form's layout
+                    return redirect(url_for("review", forms=forms))
 
                 elif "export-form" in request.form:
                     # TODO: generate JSON object from SQL and provide as .json download file
+                    ...
 
                 else:
                     raise Exception("Unable to Delete Questionnaire!")
 
             except Exception as e:
-                flash("Incorrect Email or Password")
+                # NOTE: bare-exception because I'm running out of time. D:
+                pass
 
         # pull all sessions in to display in admin portal
         form_archive = FormSession.query.group_by(FormSession.applicant_id)
