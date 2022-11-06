@@ -30,8 +30,13 @@ import os
 from datetime import timedelta
 from datetime import datetime
 
+# ADDITIONAL 3RD PARTY MODULES
+from dotenv import load_dotenv
+
 # APPLICATION MODULES
 from .helper import check_email
+from .helper import gen_superuser
+from .helper import gen_defaults
 
 # DATABASE MODELS
 from questionnaire.models import db
@@ -41,6 +46,9 @@ from questionnaire.models import User
 from questionnaire.models import FormSession
 from questionnaire.models import FormState
 
+# LOAD ENVIRONMENT VARIABLES FROM .ENV
+load_dotenv()
+
 
 def create_app():
     """Create and configure an instance of the Flask application."""
@@ -49,9 +57,9 @@ def create_app():
         instance_relative_config=True,
     )
 
-    app.config["DEBUG"] = True
-    app.config["SECRET_KEY"] = b"thisIsNotAProductionApp"
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
+    app.config["DEBUG"] = os.getenv('APP_DEBUG')
+    app.config["SECRET_KEY"] = os.getenv('APP_KEY')
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.getenv('DB_NAME')}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
@@ -69,42 +77,10 @@ def create_app():
         db.create_all()
 
         # First start defaults
-        if not User.query.filter_by(email="admin@example.com").first():
+        gen_superuser(os.getenv('SUPERUSER_EMAIL'), os.getenv('SUPERUSER_PASSWORD'))
+        gen_defaults()
 
-            # Create Superuser
-            password = generate_password_hash("adminpassword!")
-            superuser = User(email="admin@example.com", password=password)
-            db.session.add(superuser)
-
-            # Create form components
-            # NOTE: using version=1 here as a placeholder for versioning from admin portal
-            db.session.add(
-                FormState(
-                    version=1,
-                    question="Where did you hear from us, and what do you think will make\
-                         you a great asset to the BCX Business Application Department?",
-                    input_type="input",
-                    choice=None,
-                )
-            )
-            db.session.add(
-                FormState(
-                    version=1,
-                    question="How many software solutions did you write in your life?",
-                    input_type="select",
-                    choice="1 to 5;6 -25;26 -100;101 +",
-                )
-            )
-            db.session.add(
-                FormState(
-                    version=1,
-                    question="Was it fun building a website for an interview?",
-                    input_type="radio",
-                    choice="yes;no",
-                )
-            )
-
-            db.session.commit()
+        db.session.commit()
 
     # LOGIN MANAGER MODULE
 
@@ -316,8 +292,7 @@ def create_app():
     # API ENDPOINTS
 
     # NOTE:
-    # This endpoint doesn't have any authentication or
-    # error handling but I've used what I understand to be the correct
+    # I understand this to be the correct
     # RESTful convention to structure the endpoint
     # https://restfulapi.net/resource-naming/
 
@@ -338,6 +313,29 @@ def create_app():
     @app.get("/api/v1/questionnaire/<string:applicantid>/json/download")
     @login_required
     def get_json_file(applicantid):
+
+        # TODO:
+        # implement sendfile in such a way that it creates a .json file
+        # and offers it up to the the client's browser for download
+        # https://flask.palletsprojects.com/en/2.2.x/api/#flask.send_file
+
+        return jsonify(
+            {
+                "identifier": 1,
+                "email": 2,
+            }
+        )
+
+    @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
+    @login_required
+    def delete_form(applicantid):
+        '''
+        API endpoint for authenticated user to delete specified questionnaire
+        
+        NOTE:
+        If this were a production application I would prefer this endpoint
+        to have role-based permission as a second layer of protection against abuse
+        '''
 
         # TODO:
         # implement sendfile in such a way that it creates a .json file
