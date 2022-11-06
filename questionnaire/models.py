@@ -2,7 +2,6 @@ from sqlalchemy.sql import func
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
-DB_NAME = "CX_MARTHINUS_BA_DB"
 
 db = SQLAlchemy()
 
@@ -11,8 +10,8 @@ class Applicant(db.Model):
     """
     applicants table
     """
-
-    email = db.Column(db.String(64), primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, nullable=False)
     state = db.Column(db.Boolean, default=False)
     duration = db.Column(db.Integer, default="0")
 
