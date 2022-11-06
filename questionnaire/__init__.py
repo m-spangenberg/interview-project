@@ -24,6 +24,7 @@ from flask_login import current_user
 
 # DATABASE MODULE
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func 
 
 # STANDARD LIBRARY
 import os
@@ -42,6 +43,7 @@ from .helper import gen_applicants
 from .helper import gen_superuser
 from .helper import gen_default_form
 from .helper import gen_sessions
+from .helper import chucky
 
 # DATABASE MODELS
 from questionnaire.models import db
@@ -150,24 +152,22 @@ def create_app():
             # for every question in the returned request object
             # create a versioned entry in the FormSession table
 
-            for answer in request.form:
+            applicant = Applicant.query.filter_by(email=session['email']).first()
+            
+            for count, answer in enumerate(request.form):
 
-                new_session = FormSession(
-                    applicant_id=str(session["email"]),
+                session_answer = FormSession(
+                    applicant_id=int(applicant.id),
                     answer=str(request.form.get(answer)),
-                    question=str(request.form.get("question")),
+                    state_id=int(count + 1),
                 )
-                db.session.add(new_session)
+
+                db.session.add(session_answer)
                 db.session.commit()
+            
+            # change the state of the applicant's questionnaire to true
 
-            # store the applicant's info in the database
-            new_applicant = Applicant(
-                email=str(session["email"]),
-                state=1,
-                # TODO: implement session timer for duration
-            )
-
-            db.session.add(new_applicant)
+            applicant.state = 1
             db.session.commit()
 
             # invalidate session to prevent applicants from
@@ -177,7 +177,20 @@ def create_app():
 
             return redirect(url_for("confirm"))
 
+        # TODO: modify query to return the newest version of the form
         forms = FormState.query.filter_by(version=1).all()
+
+        # store the applicant's info in the database on load
+        # set state to false so we know the questionnaire isn't completed
+            
+        new_applicant = Applicant(
+            email=str(session["email"]),
+            state=0,
+            duration=50,
+        )
+
+        db.session.add(new_applicant)
+        db.session.commit()
 
         return render_template("form.html", forms=forms)
 
@@ -265,14 +278,13 @@ def create_app():
     @login_required
     def get_json(applicantid):
         """Return the applicant's session as a json dump"""
-        applicant = Applicant.query.filter_by(id=applicantid).all()
 
-        return jsonify({1: 'potato'})
+        return jsonify(chucky(applicantid))
 
     @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
     @login_required
     def delete_applicant(applicantid):
-
+        '''delete the applicants data'''
         print(applicantid)
         del_applicant(applicantid)
 
