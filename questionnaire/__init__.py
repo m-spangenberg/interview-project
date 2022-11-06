@@ -27,6 +27,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # STANDARD LIBRARY
 import os
+import logging
 from datetime import timedelta
 from datetime import datetime
 
@@ -36,11 +37,10 @@ from dotenv import load_dotenv
 # APPLICATION MODULES
 from .helper import check_email
 from .helper import gen_superuser
-from .helper import gen_defaults
+from .helper import gen_default_form
 
 # DATABASE MODELS
 from questionnaire.models import db
-from questionnaire.models import DB_NAME
 from questionnaire.models import Applicant
 from questionnaire.models import User
 from questionnaire.models import FormSession
@@ -57,6 +57,13 @@ def create_app():
         instance_relative_config=True,
     )
 
+    # LOGGING CONFIGURATION
+
+    # logging.basicConfig(
+    #     filename='questionnaire.log',
+    #     level=logging.os.getenv('LOG_LEVEL'),
+    #     format='%(asctime)s %(levelname)s : %(message)s')
+
     app.config["DEBUG"] = os.getenv('APP_DEBUG')
     app.config["SECRET_KEY"] = os.getenv('APP_KEY')
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.getenv('DB_NAME')}"
@@ -72,15 +79,11 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-
-        # Create all database models
+        # Create all database models, automatically checks if database exists
         db.create_all()
-
-        # First start defaults
+        # Generate first starting defaults id they don't exist
         gen_superuser(os.getenv('SUPERUSER_EMAIL'), os.getenv('SUPERUSER_PASSWORD'))
-        gen_defaults()
-
-        db.session.commit()
+        gen_default_form()
 
     # LOGIN MANAGER MODULE
 
