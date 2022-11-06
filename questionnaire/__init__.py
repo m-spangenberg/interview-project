@@ -65,10 +65,10 @@ def create_app():
 
     # LOGGING CONFIGURATION
 
-    # logging.basicConfig(
-    #     filename='questionnaire.log',
-    #     level=logging.os.getenv('LOG_LEVEL'),
-    #     format='%(asctime)s %(levelname)s : %(message)s')
+    logging.basicConfig(
+        filename='questionnaire.log',
+        level=logging.os.getenv('LOG_LEVEL'),
+        format='%(asctime)s %(levelname)s : %(message)s')
 
     app.config["DEBUG"] = os.getenv('APP_DEBUG')
     app.config["SECRET_KEY"] = os.getenv('APP_KEY')
