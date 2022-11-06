@@ -1,187 +1,137 @@
 # Form Project
 
-As part of the applicant screening process, I have been tasked with completing a small full-stack project over the course of 72 hours. The project touches on frontend web development basics like HTML, CSS and DOM interaction via JavaScript, as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
+As part of the applicant screening process, I have been tasked with completing a small full-stack project over the course of about 72 hours. The project touches on frontend web development as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
+
+## Screenshots
+
+Some screenshots of the project from a mobile device to showcase my considerations for responsive design on smaller screens. I don't consider myself a graphic designer, but from a UI/UX perspective, I think the clean, simple pallete helps with readability. I just wish I had time to work in a "night mode"! :) A point of pride - the only javascript in the project is for the mobile view burger-menu.
+
+From left to right, top to bottom:
+
+* The landing page, which acts as the questionnaire portal. email addresses are only superficially validated by the client, I didn't have time to write something to do more complex validation, but if I did, I would probably do something along the lines of creating a email which with a confirmation code in order to cut down on spam. I did create checks for resubmission though.
+* The admin page, which acts as the administrative portal's login. I made use of Flask-Login for context managemnt in order to have protected routes, but the password hashing and storage is all flask and sql-alchemy.
+* The submission review page, from here the superuser can review individual forms, request a json copy of the questionnaire, or delete the submission and its associated applicant data.
+* The actual questionnaire form, auto generated from the database. This had me burning the midnight oil because I was unsure of the best approach for modeling the database in a way which I can reconstruct questionnaires but still be able to modify the questionnaire's state over time... and by the time I decided on a direction for a schema, I had to backtrack and rework code in the rest of the project. Wasted some time - but a lot was learnt!
+* A review page for an dummy questionnaire. I think the one thing that stood out at me from the start of this project was how to cleanly move data from queries to the templating engine and back into the backend for processing. I think if I had a fresh start I might consider going 100% API calls for all operations instead of the mix of form submissions and API CRUD enpoints currently in use.
+* A json copy of the dummy submission. I decided to cobble together something quick for this that just stuffs queries into a dictionary and convert it to json with Flask's jsonify.
+
+![project-screenshots-1](readme/interview-project-views1.png)
+![project-screenshots-2](readme/interview-project-views2.png)
 
 ## Evaluation
 
-The project will be evaluated on the following criteria:
+So below is my interpretation, or understanding of the evaluation criteria for this project. With so much going on in such a short space of time, it was hard for me to reference every single point in this list, but I made a concious effort to at least hit the broad strokes.
 
-* Code Reusability
+* **Code Reusability**
   * How modular is the codebase and can portions of it be reused easily?
-* Code Maintenance
+* **Code Maintenance**
   * How difficult is it to keep the code maintained over time?
-* Code Documentation
+* **Code Documentation**
   * How well are features and design choices documented in the codebase?
-* Object Orientation
+* **Object Orientation**
   * To what degree is OOP being implemented to leverage the benefits of instantiation and inheritance?
-* Database Design
+* **Database Design**
   * How well thought out is the DB schema, are good practices being implemented in the design?
-* Generics
+* **Generics**
   * How flexible are your functions and classes and can they handle mixed types?
-* Method Constructions
+* **Method Constructions**
   * Do you make use of constructors?
-* MVC Implementation
+* **MVC Implementation**
   * Are you making full use of the Mode-View-Controller architecture pattern?
-* Code Structure and Architecture
+* **Code Structure and Architecture**
   * How understandable and neat is your codebase's layout and the project's structure?
-* Polymorphism
+* **Polymorphism**
   * Are you correctly implementing parent-child inheritance?
-
-The subheadings above are my interpretations of the evaluation criteria in relation to Python and the Flask framework.
-
-## Project Constraints
-
-* The solution must be named: `BCX_{YOUR_FIRSTNAME}_BA_SOL`
-  * Solutions are unique to Visual Studio C# projects
-  * Alternatively, use as the name for the project folder
-* The database must be named: `CX_{YOUR_FIRSTNAME}_BA_DB`
-* Project must tbe shared with the hiring manager and cc'd team members via [WeTransfer](https://wetransfer.com/)
-* The project must be submitted before the **72 hour** deadline
-
-## Project Specification
-
-### Goal
-
-Create an internal web site that a user can access in order to complete a series of interview questions. The answers given by an applicant should be stored in a database, and be uniquely identifiable by the user's email address.
-
-### Design Guidelines
-
-**General Specification**
-
-* Avoid static data for questions forms, questions, and answers
-* Users submitted data should be tracked with a unique identifier (email).
-* The solution must be a [question form](https://www.surveymonkey.com/mp/survey-vs-questionnaire/), not a survey.
-
-**Question Form Area**
-
-* Use appropriate input controls for questions answers.
-* Allow user to input their email before starting the question form
-* Question that needs to be configured are the following:
-
-  * **Question 1**: Where did you hear from us, and what do you think will make you a
-great asset to the BCX Business Application Department?
-    * Respond text characters max length 1024
-
-  * **Question 2**: How many software solutions did you write in your life?
-    * Respond with options: 1 to 5, 6 -25, 26 -100, 101 +
-
-  * **Question 3**: Was it fun building a website for an interview?
-    * Response with Yes/No
-
-  * **Question Form Area Bonus Criteria**
-    * Add a timer that ends the user’s question form session after a [x] period.
-    * Render all website styles look and feel in a single CSS theme class.
-
-**Backend Portal Area**
-
-* Allow access to a separate backend admin portal area.
-* No authentication required, just add a button anywhere to access this area
-* Allow admin to review question form submissions
-* Add button on each question form entry to export the question form with user answers
-to JSON.
-
-  * **Backend Portal Area Bonus Criteria**
-    * Add authentication for an admin user. i.e. username and password
-    * Statistics reports on how long the user takes to complete the survey.
-    * Allow admin to add more questions and answers to question form.
 
 ## Application Flow
 
-The flow pattern during usage by either an applicant in the questionnaire portal or a privileged user in the admin portal.
+The flow pattern during usage by either an applicant in the questionnaire portal or a privileged user in the admin portal. I threw this little drawing togther at the very beginning of the project to act as a guide for how I want to lay out my templating and also my routing.
 
 ![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
 
+## Template Inheritance Tree
 
-## Template Inheritance Diagram
+Structure of my templates. I wanted to draw a nice dependency diagram but didn't have time.
 
 ```bash
 Questionnaire Project
 │
 ├── 404.html
 ├── 500.html
+├── admin.html
 ├── build.html
 ├── confirm.html
 ├── elements
-│   ├── base.html
-│   ├── footer.html
-│   ├── form_row.html
-│   └── nav.html
+│   ├── base.html
+│   ├── footer.html
+│   ├── form_answer.html
+│   ├── form_input.html
+│   ├── form_radio.html
+│   ├── form_row.html
+│   ├── form_select.html
+│   ├── nav.html
+│   └── notification.html
 ├── form.html
-├── forms.html
 ├── index.html
+├── login.html
 └── review.html
+
 ```
-
-## Questionnaire & Form Builder
-
-I decided to implement the form builder portion of the project using a scaffolding approach. By using the database as the single source of truth and generating the questionnaire using templates, I am free to perform CRUD operations on a form master table and have the frontend inherit any changes from the database. To get around retro-active access to older forms, user submitted data is stored as a JSON object and reconstituted in the same way as the frontend's questionnaire, except from a single JSON dump instead of queries to SQLite.
 
 ## Database Schema
 
+There was much wailing and gnashing of teeth trying to decide if I should just do 'good enough' normalization and focus on getting a minimum viable product ready for deadline, or spend some time building out an epic database with all the decoupling and BCNF anyone could wish for. Ended up spending too much time worrying fretting about schema, but this is a middle of the road version that works, at least.
+
 ```sql
-```
-
-## Extras
-
-Some things I had extra time for:
-
-* fully responsive for mobile
-
-## Deployment
-
-### Docker Instructions
-
-This project has been packaged into a Docker image to showcase what a standard deployment workflow would look like in a development environment. The image is available at TODO:INSERT DOWNLOAD LINK, deploying it in your own environment should be easy as long as you have Docker installed. If you prefer not to use Docker, please use the alternate instructions.
-
-Optional: Build image from source
-
-```bash
-docker build --tag forms-project .
-```
-
-Deploy container via Docker Run CLI
-
-```bash
-# start the container in detached mode with network bound to port 5000 and destroy it on exit
-sudo docker run -rm -d -p 5000:5000 --name forms forms-project
-# populate the database with forms
-sudo 
-```
-
-### Alternate Instructions
-
-```bash
-# clone this repository
-git clone https://github.com/m-spangenberg/interview-project.git forms
-cd ./forms
-# make sure you have pipenv installed
-pip install --user pipenv
-# install the needed dependencies from the piplock file
-pipenv install 
-# or if you prefer use the requirements.txt file
-pipenv run flask --app questionnaire --debug run --host=0.0.0.0
-```
-
-## Usage
-
-For testing purposes the following accounts are auto-generated when the database is first created. Make use of them to test frontend and backend functionality.
-
-Admin Account
-
-```bash
-# username
-admin@example.com
-# password
-adminpassword!
+CREATE TABLE applicant (
+	id INTEGER NOT NULL, 
+	email VARCHAR(64) NOT NULL, 
+	state BOOLEAN, 
+	duration INTEGER, 
+	PRIMARY KEY (id), 
+	UNIQUE (email)
+);
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	email VARCHAR(64), 
+	password VARCHAR(128), 
+	PRIMARY KEY (id), 
+	UNIQUE (email)
+);
+CREATE TABLE form_state (
+	id INTEGER NOT NULL, 
+	version INTEGER, 
+	question VARCHAR(256), 
+	input_type VARCHAR(32), 
+	choice VARCHAR(64), 
+	PRIMARY KEY (id)
+);
+CREATE TABLE form_session (
+	id INTEGER NOT NULL, 
+	applicant_id INTEGER, 
+	answer VARCHAR(1024), 
+	date DATETIME, 
+	state_id INTEGER, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(applicant_id) REFERENCES applicant (id), 
+	FOREIGN KEY(state_id) REFERENCES form_state (id)
+);
 ```
 
 ## Deployment
+
+I really wanted to put together a docker image for this, and you can see the initial files for it in the repo. but I just didn't have time. Way too many spinning plates. You'll have to be happy with the admittedly linux-centric instructions below, but they should work just find on a windows machine with Python and Pip installed.
 
 ### Instructions
 
+You'll need to have `git`, `pip`, `python` avaialble to follow the instructions below.
+
+Run with Pipenv
+
 ```bash
 # clone this repository
 git clone https://github.com/m-spangenberg/interview-project.git forms
+# change directory to the repo. folder
 cd ./forms
 # make sure you have pipenv installed
 pip install --user pipenv
@@ -191,6 +141,16 @@ pipenv install
 pipenv run flask --app questionnaire --debug run --host=0.0.0.0
 ```
 
+...or if you're on a Windows machine make sure you've got Python installed and do
+
+```bash
+# download and extract the repository
+git clone https://github.com/m-spangenberg/interview-project.git forms
+# change directory to the repo. folder
+cd ./forms
+# initialize the virtual environment
+python3 -m venv .
+```
 
 ## Final Thoughts
 
@@ -201,80 +161,3 @@ I didn't have time for:
 * Implementing a working form builder page
 * Implementing the form delete function on the admin portal
 * Implementing a JSON export function on the admin portal
-
-### Database Models Considerations
-
-The data model below was my proposed solution to driving the form generation in the frontend and still be able to modify the existing form's state while maintaining review capabilities but I ran out of time to normalize and extend the database structure in a way that allows for this sort of decoupling.
-
-```py
-class Applicant(db.Model):
-    """
-    applicants table with email as the requested primary key
-    """
-    email = db.Column(db.String(64), primary_key=True, unique=True, nullable=False)
-    stats = db.relationship('ApplicantStats', back_populates='applicant', uselist=False)
-
-class ApplicantStats(db.Model):
-    """
-    session statistics for applicants
-    in a one-to-one relationship with the Applicant table
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    state = db.Column(db.Boolean, default=False)
-    duration = db.Column(db.Integer, default="0")
-    applicant = db.relationship('Applicant', back_populates='stats')
-
-class User(db.Model, UserMixin):
-    """
-    superusers table for backend access
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True)
-    password = db.Column(db.String(128))
-
-class FormSession(db.Model):
-    """
-    state of the the applicant's session
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.String, db.ForeignKey('applicant.email'))
-    answer = db.Column(db.String(1024))
-    state_id = db.Column(db.Integer, db.ForeignKey('form_state.version'))
-    state = db.relationship('FormState', backref='parents')
-
-class FormState(db.Model):
-    """
-    state of the questionnaire
-    in a many-to-one relationship with FormSession
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    version = db.Column(db.Integer)
-    question_id = db.Column(db.Integer, db.ForeignKey("form_question.id"))
-    input_id = db.Column(db.Integer, db.ForeignKey("form_input.id"))
-    choice_id = db.Column(db.Integer, db.ForeignKey("form_choice.id"))
-
-class FormQuestion(db.Model):
-    """
-    questions available to form
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    question = db.Column(db.String(256))
-    
-class FormInput(db.Model):
-    """
-    input types available to form questions
-    currently: input, select, and radio
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    input_type = db.Column(db.String(32))
-
-class FormChoice(db.Model):
-    """
-    choices available to the input types
-    for inputs that require multiple values: radio and select
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    choice = db.Column(db.String(64))
-```
