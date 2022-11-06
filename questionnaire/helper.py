@@ -13,19 +13,27 @@ from random import randrange
 
 
 def chucky(applicantid: int) -> str:
-    '''construct a json object that represent the applicant and questionnaire session data'''
-    Applicant.query.filter_by(id=applicantid).first()
+    '''construct a json schema that represents the applicant and questionnaire session data'''
+    applicant = Applicant.query.filter_by(id=applicantid).first()
+    state = FormSession.query.filter_by(applicant_id=applicantid).all()
 
-    data_schema = '{\
-        "id": ,\
-        "email": ,\
-        "state": ,\
-        "duration":\
-        "questions":\
-        "answers":\
-        "":\
-        "":\
-        }'
+    questions = []
+    answers = []
+
+    for entry in state:
+        
+        questions.append(entry.session.question)
+        answers.append(entry.answer)
+
+    # build schema
+    data_schema = {
+        "id": applicant.id,
+        "email": applicant.email,
+        "state": applicant.state,
+        "duration": applicant.duration,
+        "questions": [questions],
+        "answers": [answers],
+    }
 
     return data_schema
 
