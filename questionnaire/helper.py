@@ -12,13 +12,31 @@ from random import choice
 from random import randrange
 
 
-def del_applicant(applicantid: str) -> None:
+def chucky(applicantid: int) -> str:
+    '''construct a json object that represent the applicant and questionnaire session data'''
+    Applicant.query.filter_by(id=applicantid).first()
+
+    data_schema = '{\
+        "id": ,\
+        "email": ,\
+        "state": ,\
+        "duration":\
+        "questions":\
+        "answers":\
+        "":\
+        "":\
+        }'
+
+    return data_schema
+
+def del_applicant(applicantid: int) -> None:
     '''delete the applicant and all their associated data from the database'''
     try:
         if applicantid:
             with current_app.app_context():
 
-                applicant = Applicant.query.filter_by(email=applicantid).first()
+                applicant = Applicant.query.filter_by(id=applicantid).first()
+
                 db.session.delete(applicant)
                 db.session.commit()
 
@@ -154,16 +172,18 @@ def gen_sessions() -> None:
             if FormSession.query.first() is None:
 
                 applicants = Applicant.query.all()
-
                 for applicant in applicants:
 
-                    db.session.add(
-                        FormSession(
-                            applicant_id=applicant.id,
-                            answer="This is just some dummy text so there's something to look at.",
-                            question="This is just here so the form is populated"
+                    formstate = FormState.query.filter_by(version=1).all()
+                    for question in formstate:
+
+                        db.session.add(
+                            FormSession(
+                                applicant_id=applicant.id,
+                                answer="Dummy Response",
+                                state_id=question.id
+                            )
                         )
-                    )
 
                 db.session.commit()
 
