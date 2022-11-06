@@ -91,8 +91,6 @@ def create_app():
         gen_applicants(10)
         gen_sessions()
 
-    ma = Marshmallow(app)
-
     # LOGIN MANAGER MODULE
 
     login_manager = LoginManager()
