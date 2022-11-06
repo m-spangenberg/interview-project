@@ -285,7 +285,6 @@ def create_app():
     @login_required
     def delete_applicant(applicantid):
         '''delete the applicants data'''
-        print(applicantid)
         del_applicant(applicantid)
 
         return redirect(url_for("admin"))
