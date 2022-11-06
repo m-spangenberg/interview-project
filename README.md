@@ -126,7 +126,7 @@ I really wanted to put together a docker image for this, and you can see the ini
 
 You'll need to have `git`, `pip`, `python` avaialble to follow the instructions below.
 
-Run with Pipenv
+Run with Pipenv:
 
 ```bash
 # clone this repository
@@ -141,23 +141,23 @@ pipenv install
 pipenv run flask --app questionnaire --debug run --host=0.0.0.0
 ```
 
-...or if you're on a Windows machine make sure you've got Python installed and do
+If you're on a Windows machine make sure you've got Python properly installed then:
 
 ```bash
 # download and extract the repository
-git clone https://github.com/m-spangenberg/interview-project.git forms
-# change directory to the repo. folder
-cd ./forms
-# initialize the virtual environment
-python3 -m venv .
+https://github.com/m-spangenberg/interview-project/archive/refs/heads/main.zip
+# open up the command-line inside the extracted folder
+pip install -r requirement.txt
+# run flask's testing server
+flask --app questionnaire --debug run --host=0.0.0.0
+# you'll be able to access the server at http://127.0.0.1:5000
 ```
+
+Feel free to add some questionaire submission or log into the admin portal, I've generated dummy data for you to test the delete,review and export buttons. I didn't have time to finish building the builder portion of the project, but I've left the button and route in place for you to inspect it.
 
 ## Final Thoughts
 
-I didn't have time for:
+I had fun building this project and I learned a few new tricks along the way. I got stuck over-optmizing and eventually had to settle for a middle of the road solution becuase of time constraints, but overall I am very happy with the progress I made up to the deadline.
 
-* Documenting the code as well as I would have liked
-* Building a functional session timer and redirect function
-* Implementing a working form builder page
-* Implementing the form delete function on the admin portal
-* Implementing a JSON export function on the admin portal
+That said, I was not completely happy with the version of the project I delivered to the team on deadline and so I put in few more hours of work on Sunday to bring the project up to scratch. The form builder portion of the project might not be done, and I never got to putting a timer on the form submission page, but I'm happy with the result and I gave it a fair shot.
+
