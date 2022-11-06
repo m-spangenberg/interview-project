@@ -27,6 +27,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # STANDARD LIBRARY
 import os
+import json
 import logging
 from datetime import timedelta
 from datetime import datetime
@@ -89,6 +90,8 @@ def create_app():
         gen_default_form()
         gen_applicants(10)
         gen_sessions()
+
+    ma = Marshmallow(app)
 
     # LOGIN MANAGER MODULE
 
@@ -223,58 +226,8 @@ def create_app():
     @login_required
     def admin():
         """Serve questionnaire review page."""
-
-        if request.method == "POST":
-
-            try:
-                if "delete-form" in request.form:
-
-                    applicantid = request.form.get("delete-form")
-                    del_applicant(applicantid)
-
-                    return redirect(url_for("admin"))
-                    
-
-                elif "review-form" in request.form:
-                    # TODO: query and build related form's layout
-                    # TODO: swap out user email for a UUID
-
-                    email = request.form.get("review-form")
-
-                    return redirect(url_for("review"))
-
-                elif "export-form" in request.form:
-                    # TODO: generate JSON object from SQL and provide as .json download file
-                    ...
-
-                else:
-                    raise Exception("Unable to Delete Questionnaire!")
-
-            except Exception as e:
-                # NOTE: bare-exception because I'm running out of time. D:
-                pass
-
-        # pull all sessions in to display in admin portal
         form_archive = FormSession.query.group_by(FormSession.applicant_id)
-
         return render_template("admin.html", form_archive=form_archive)
-
-    # NOTE: would rather use a UUID than email
-
-    @app.route("/review")
-    @login_required
-    def review():
-        """Serve questionnaire review page."""
-
-        # NOTE: have to hardcode or I wont make deadline - need to pass data from admin portal to review page
-        # Question is broken on submission side, not indexing through input questions properly.
-
-        applicant_id = "spangenbergmarthinus@gmail.com"
-        forms = FormSession.query.filter(
-            FormSession.applicant_id.endswith(applicant_id)
-        ).all()
-
-        return render_template("review.html", forms=forms)
 
     @app.route("/build", methods=["GET", "POST"])
     @login_required
@@ -301,39 +254,30 @@ def create_app():
 
     # API ENDPOINTS
 
-    # NOTE:
-    # I understand this to be the correct
-    # RESTful convention to structure the endpoint
-    # https://restfulapi.net/resource-naming/
+    @app.get("/api/v1/questionnaire/<string:applicantid>/review")
+    @login_required
+    def review(applicantid):
+        """Serve questionnaire review page."""
+        applicant = Applicant.query.filter_by(id=applicantid).first()
+        questions = FormSession.query.filter_by(applicant_id=applicantid).all()
+
+        return render_template("review.html", questions=questions, applicant=applicant)
 
     @app.get("/api/v1/questionnaire/<string:applicantid>/json")
     @login_required
-    def get_json_raw(applicantid):
+    def get_json(applicantid):
+        """Return the applicant's session as a json dump"""
+        applicant = Applicant.query.filter_by(id=applicantid).all()
 
-        # TODO:
-        # render the response as a pretty-printed json response
+        return jsonify({1: 'potato'})
 
-        return jsonify(
-            {
-                "identifier": 1,
-                "email": 2,
-            }
-        )
-
-    @app.get("/api/v1/questionnaire/<string:applicantid>/json/download")
+    @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
     @login_required
-    def get_json_file(applicantid):
+    def delete_applicant(applicantid):
 
-        # TODO:
-        # implement sendfile in such a way that it creates a .json file
-        # and offers it up to the the client's browser for download
-        # https://flask.palletsprojects.com/en/2.2.x/api/#flask.send_file
+        print(applicantid)
+        del_applicant(applicantid)
 
-        return jsonify(
-            {
-                "identifier": 1,
-                "email": 2,
-            }
-        )
+        return redirect(url_for("admin"))
 
     return app
