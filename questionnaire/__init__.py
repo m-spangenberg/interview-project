@@ -36,8 +36,11 @@ from dotenv import load_dotenv
 
 # APPLICATION MODULES
 from .helper import check_email
+from .helper import del_applicant
+from .helper import gen_applicants
 from .helper import gen_superuser
 from .helper import gen_default_form
+from .helper import gen_sessions
 
 # DATABASE MODELS
 from questionnaire.models import db
@@ -84,6 +87,8 @@ def create_app():
         # Generate first starting defaults id they don't exist
         gen_superuser(os.getenv('SUPERUSER_EMAIL'), os.getenv('SUPERUSER_PASSWORD'))
         gen_default_form()
+        gen_applicants(10)
+        gen_sessions()
 
     # LOGIN MANAGER MODULE
 
@@ -223,10 +228,12 @@ def create_app():
 
             try:
                 if "delete-form" in request.form:
-                    # TODO: cascade all and delete orphans in database
-                    # Query applicant based on hidden input value
-                    # db.session.delete(archived_form)
-                    ...
+
+                    applicantid = request.form.get("delete-form")
+                    del_applicant(applicantid)
+
+                    return redirect(url_for("admin"))
+                    
 
                 elif "review-form" in request.form:
                     # TODO: query and build related form's layout
@@ -316,29 +323,6 @@ def create_app():
     @app.get("/api/v1/questionnaire/<string:applicantid>/json/download")
     @login_required
     def get_json_file(applicantid):
-
-        # TODO:
-        # implement sendfile in such a way that it creates a .json file
-        # and offers it up to the the client's browser for download
-        # https://flask.palletsprojects.com/en/2.2.x/api/#flask.send_file
-
-        return jsonify(
-            {
-                "identifier": 1,
-                "email": 2,
-            }
-        )
-
-    @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
-    @login_required
-    def delete_form(applicantid):
-        '''
-        API endpoint for authenticated user to delete specified questionnaire
-        
-        NOTE:
-        If this were a production application I would prefer this endpoint
-        to have role-based permission as a second layer of protection against abuse
-        '''
 
         # TODO:
         # implement sendfile in such a way that it creates a .json file
