@@ -24,7 +24,7 @@ from flask_login import current_user
 
 # DATABASE MODULE
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func 
+from sqlalchemy import func
 
 # STANDARD LIBRARY
 import os
@@ -66,12 +66,13 @@ def create_app():
     # LOGGING CONFIGURATION
 
     logging.basicConfig(
-        filename='questionnaire.log',
-        level=logging.os.getenv('LOG_LEVEL'),
-        format='%(asctime)s %(levelname)s : %(message)s')
+        filename="questionnaire.log",
+        level=logging.os.getenv("LOG_LEVEL"),
+        format="%(asctime)s %(levelname)s : %(message)s",
+    )
 
-    app.config["DEBUG"] = os.getenv('APP_DEBUG')
-    app.config["SECRET_KEY"] = os.getenv('APP_KEY')
+    app.config["DEBUG"] = os.getenv("APP_DEBUG")
+    app.config["SECRET_KEY"] = os.getenv("APP_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.getenv('DB_NAME')}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -88,7 +89,7 @@ def create_app():
         # Create all database models, automatically checks if database exists
         db.create_all()
         # Generate first starting defaults id they don't exist
-        gen_superuser(os.getenv('SUPERUSER_EMAIL'), os.getenv('SUPERUSER_PASSWORD'))
+        gen_superuser(os.getenv("SUPERUSER_EMAIL"), os.getenv("SUPERUSER_PASSWORD"))
         gen_default_form()
         gen_applicants(10)
         gen_sessions()
@@ -152,8 +153,8 @@ def create_app():
             # for every question in the returned request object
             # create a versioned entry in the FormSession table
 
-            applicant = Applicant.query.filter_by(email=session['email']).first()
-            
+            applicant = Applicant.query.filter_by(email=session["email"]).first()
+
             for count, answer in enumerate(request.form):
 
                 session_answer = FormSession(
@@ -164,7 +165,7 @@ def create_app():
 
                 db.session.add(session_answer)
                 db.session.commit()
-            
+
             # change the state of the applicant's questionnaire to true
 
             applicant.state = 1
@@ -182,7 +183,7 @@ def create_app():
 
         # store the applicant's info in the database on load
         # set state to false so we know the questionnaire isn't completed
-            
+
         new_applicant = Applicant(
             email=str(session["email"]),
             state=0,
@@ -284,7 +285,7 @@ def create_app():
     @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
     @login_required
     def delete_applicant(applicantid):
-        '''delete the applicants data'''
+        """delete the applicants data"""
         del_applicant(applicantid)
 
         return redirect(url_for("admin"))

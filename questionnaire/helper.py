@@ -13,7 +13,7 @@ from random import randrange
 
 
 def chucky(applicantid: int) -> str:
-    '''construct a json schema that represents the applicant and questionnaire session data'''
+    """construct a json schema that represents the applicant and questionnaire session data"""
     applicant = Applicant.query.filter_by(id=applicantid).first()
     state = FormSession.query.filter_by(applicant_id=applicantid).all()
 
@@ -21,7 +21,7 @@ def chucky(applicantid: int) -> str:
     answers = []
 
     for entry in state:
-        
+
         questions.append(entry.session.question)
         answers.append(entry.answer)
 
@@ -37,8 +37,9 @@ def chucky(applicantid: int) -> str:
 
     return data_schema
 
+
 def del_applicant(applicantid: int) -> None:
-    '''delete the applicant and all their associated data from the database'''
+    """delete the applicant and all their associated data from the database"""
     try:
         if applicantid:
             with current_app.app_context():
@@ -48,10 +49,10 @@ def del_applicant(applicantid: int) -> None:
                 db.session.delete(applicant)
                 db.session.commit()
 
-        raise Exception('no valid applicant id supplied')
+        raise Exception("no valid applicant id supplied")
 
     except Exception as e:
-        current_app.logger.error('%s -- failed to delete applicant data', e)
+        current_app.logger.error("%s -- failed to delete applicant data", e)
 
 
 def check_email(email: str) -> str:
@@ -61,18 +62,18 @@ def check_email(email: str) -> str:
         if email_check.email is not None:
             email_exists = str(email_check.email)
     except AttributeError:
-        current_app.logger.info('login attempt by processed applicant: %s', email)
+        current_app.logger.info("login attempt by processed applicant: %s", email)
         email_exists = None
 
     return email_exists
 
 
 def gen_superuser(email: str, password: str) -> None:
-    '''
+    """
     check if db is empty
     check if user does not exists
     generate superuser in database
-    '''
+    """
     try:
         with current_app.app_context():
             if User.query.first() is None:
@@ -83,17 +84,18 @@ def gen_superuser(email: str, password: str) -> None:
                     db.session.add(superuser)
                     db.session.commit()
                 else:
-                    raise Exception('superuser already exists')
+                    raise Exception("superuser already exists")
             else:
-                raise Exception('database is not empty')
+                raise Exception("database is not empty")
 
     except Exception as e:
-        current_app.logger.error('%s -- failed to generate superuser', e)
+        current_app.logger.error("%s -- failed to generate superuser", e)
+
 
 def gen_default_form() -> None:
-    '''
+    """
     generate default questions form
-    '''
+    """
     try:
         with current_app.app_context():
 
@@ -127,21 +129,30 @@ def gen_default_form() -> None:
 
                 db.session.commit()
             else:
-                raise Exception('form is already pre-populated')
+                raise Exception("form is already pre-populated")
 
     except Exception as e:
-        current_app.logger.error('%s -- failed to populate default form', e)
+        current_app.logger.error("%s -- failed to populate default form", e)
 
 
 def gen_applicants(count: int) -> None:
-    '''
+    """
     generate dummy applicants
-    '''
+    """
 
-    domains = ['bigmail', 'yeehaw', 'icebox', 'ycloud', 'neutron', 'inlook', 'lmao', 'windex']
-    tlds = ['com', 'org', 'io', 'net', 'mail', 'spam']
-    f_names = ['test', 'spam', 'leetcoder', 'dbdude', 'htmlmao', 'howto']
-    l_names = ['magic', 'box', 'hunter', 'cool', 'super', 'bingbong']
+    domains = [
+        "bigmail",
+        "yeehaw",
+        "icebox",
+        "ycloud",
+        "neutron",
+        "inlook",
+        "lmao",
+        "windex",
+    ]
+    tlds = ["com", "org", "io", "net", "mail", "spam"]
+    f_names = ["test", "spam", "leetcoder", "dbdude", "htmlmao", "howto"]
+    l_names = ["magic", "box", "hunter", "cool", "super", "bingbong"]
 
     try:
         with current_app.app_context():
@@ -149,7 +160,7 @@ def gen_applicants(count: int) -> None:
             if Applicant.query.first() is None:
 
                 for _ in range(count):
-                    email = f'{choice(f_names)}{choice(l_names)}@{choice(domains)}.{choice(tlds)}'
+                    email = f"{choice(f_names)}{choice(l_names)}@{choice(domains)}.{choice(tlds)}"
                     state = 1
                     duration = randrange(5, 120, 1)
 
@@ -164,16 +175,16 @@ def gen_applicants(count: int) -> None:
                 db.session.commit()
 
             else:
-                raise Exception('applicant pool is already pre-populated')
+                raise Exception("applicant pool is already pre-populated")
 
     except Exception as e:
-        current_app.logger.error('%s -- failed to populate default applicant pool', e)
+        current_app.logger.error("%s -- failed to populate default applicant pool", e)
 
 
 def gen_sessions() -> None:
-    '''
+    """
     generate dummy sessions for available applicants
-    '''
+    """
     try:
         with current_app.app_context():
 
@@ -189,14 +200,14 @@ def gen_sessions() -> None:
                             FormSession(
                                 applicant_id=applicant.id,
                                 answer="Dummy Response",
-                                state_id=question.id
+                                state_id=question.id,
                             )
                         )
 
                 db.session.commit()
 
             else:
-                raise Exception('session is already pre-populated')
+                raise Exception("session is already pre-populated")
 
     except Exception as e:
-        current_app.logger.error('%s -- failed to populate default session data', e)
+        current_app.logger.error("%s -- failed to populate default session data", e)
