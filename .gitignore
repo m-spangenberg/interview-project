@@ -30,3 +30,4 @@ htmlcov/
 # Project
 project.pdf
 *.db
+*.log
