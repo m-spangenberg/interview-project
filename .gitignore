@@ -2,7 +2,6 @@
 .DS_Store
 .env
 .flaskenv
-instance/
 __pycache__/
 *.pyc
 *.pyo
@@ -29,5 +28,4 @@ htmlcov/
 
 # Project
 project.pdf
-*.db
 *.log
