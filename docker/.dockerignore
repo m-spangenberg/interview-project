@@ -3,4 +3,6 @@
 */temp*
 *.md
 *.db
+*.sqlite
 */readme*
+*/instance*
