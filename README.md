@@ -123,10 +123,10 @@ CREATE TABLE form_session (
 
 With **Docker** building an image from the repo:
 
-You'll need to have `git` annd `docker` installed to follow the instructions below.
+You'll need to have `docker` installed to follow the instructions below.
 
 ```bash
-# clone this repository
+# clone or download this repository
 git clone https://github.com/m-spangenberg/interview-project.git forms
 # change directory to the repo. folder
 cd ./forms
@@ -136,7 +136,7 @@ sudo docker build -t bcxform .
 sudo docker images
 # run the container (-d detached, --rm remove after shutdown)
 sudo docker run --name bcxform -d --rm -p 5000:5000 bcxform
-# visit the project at: http://127.0.0.1:5000/ and stop thje container with
+# visit the project at: http://127.0.0.1:5000/ and stop the container with
 sudo docker stop bcxform
 # clean up the leftover images and file created by docker
 sudo docker system prune
