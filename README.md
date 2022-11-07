@@ -1,3 +1,4 @@
+![Python](https://img.shields.io/github/pipenv/locked/python-version/m-spangenberg/interview-project)
 ![Flask](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask)
 ![Flask-Login](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask-login)
 ![Flask-SQLAlchemy](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask-sqlalchemy)
