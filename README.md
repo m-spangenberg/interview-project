@@ -123,7 +123,7 @@ CREATE TABLE form_session (
 
 With **Docker** building an image from the repo:
 
-You'll need to have `docker` installed to follow the instructions below.
+You'll need to have `docker` installed to follow the instructions below. This should result in a ~111MB image being generated. I've taken care to use the most slimmed down base image I could find.
 
 ```bash
 # clone or download this repository
@@ -138,7 +138,7 @@ sudo docker images
 sudo docker run --name bcxform -d --rm -p 5000:5000 bcxform
 # visit the project at: http://127.0.0.1:5000/ and stop the container with
 sudo docker stop bcxform
-# clean up the leftover images and file created by docker
+# clean up the leftover images and files created by docker
 sudo docker system prune
 ```
 
