@@ -49,8 +49,7 @@ The flow pattern during usage by either an applicant in the questionnaire portal
 
 ![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
 
-## Template Inheritance Tree
-
+## Templates
 Structure of my templates. I wanted to draw a nice dependency diagram but didn't have time.
 
 ```bash
