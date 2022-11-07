@@ -1,0 +1,12 @@
+# Here we're going to tell docker's build engine what to ignore when we run our image build
+
+*/temp*
+*.md
+*.db
+*.log
+*.sqlite
+*/readme*
+*/instance*
+*/docker*
+*/tests/
+*/venv/
