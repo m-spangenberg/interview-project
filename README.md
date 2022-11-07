@@ -49,7 +49,7 @@ The flow pattern during usage by either an applicant in the questionnaire portal
 
 ![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
 
-## Templates
+## Template Flow
 
 Structure of my templates and how they inherit from each other. The only change I would make is to have my nav and footer extend from the base template since it is redundant having them included on every page. I initially didn't think I would have use for them on every page, so kept them as separate templates to give me some flexibility.
 
@@ -174,7 +174,7 @@ flask --app questionnaire --debug run --host=0.0.0.0
 # you'll be able to access the server at http://127.0.0.1:5000
 ```
 
-Feel free to add some questionnaire submission or log into the admin portal, I've generated dummy data for you to test the delete,review and export buttons. I didn't have time to finish building the builder portion of the project, but I've left the button and route in place for you to inspect it.
+Feel free to add some questionnaire submission or log into the admin portal, I've generated dummy data for you to test the delete, review, and export buttons. I didn't have time to finish building the builder portion of the project, but I've left the button and route in place for you to inspect it.
 
 ## Final Thoughts
 
