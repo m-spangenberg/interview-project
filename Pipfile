@@ -8,10 +8,10 @@ flask = "*"
 flask-sqlalchemy = "*"
 flask-login = "*"
 python-dotenv = "*"
-pytest = "*"
 
 [dev-packages]
 black = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.10"
