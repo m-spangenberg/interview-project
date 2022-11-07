@@ -50,7 +50,10 @@ The flow pattern during usage by either an applicant in the questionnaire portal
 ![Interview Project Flow Illustration](/readme/interview-project-flow.svg)
 
 ## Templates
-Structure of my templates. I wanted to draw a nice dependency diagram but didn't have time.
+
+Structure of my templates and how they inherit from each other. The only change I would make is to have my nav and footer extend from the base template since it is redundant having them included on every page. I initially didn't think I would have use for them on every page, so kept them as separate templates to give me some flexibility.
+
+![project-template-graph](readme/template-graph.svg)
 
 ```bash
 Questionnaire Project
