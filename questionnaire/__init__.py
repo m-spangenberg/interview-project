@@ -36,7 +36,6 @@ from datetime import datetime
 # ADDITIONAL 3RD PARTY MODULES
 from dotenv import load_dotenv
 
-
 # APPLICATION MODULES
 from .helper import check_email
 from .helper import del_applicant
@@ -77,7 +76,6 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.getenv('DB_NAME')}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.getenv("TRACK_MODS")
     app.config["TEMPLATES_AUTO_RELOAD"] = os.getenv("APP_TEMPLATE_RELOAD")
-    app.config["TESTING"] = os.getenv("APP_TESTING") 
 
     # Make sure the instance folder is created to store the database
     try:
