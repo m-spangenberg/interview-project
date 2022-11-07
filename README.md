@@ -129,11 +129,24 @@ CREATE TABLE form_session (
 
 ## Deployment
 
+I set up an automated build and push pipeline with GitHub Actions that creates a new Docker image whenever changes are merged to the main branch of this repository. The image can be found over on [Docker Hub](https://hub.docker.com/repository/docker/mspangenberg/bcxform). Instructions on how to run the image are below.
+
 ### Instructions
 
-With **Docker** building an image from the repo:
+With **Docker Run**
 
-You'll need to have `docker` installed to follow the instructions below. This should result in a ~111MB image being generated. I've taken care to use the most slimmed down base image I could find.
+Just make sure you have [Docker installed](https://docs.docker.com/desktop/install/windows-install/) on whatever platform suits you best.
+
+```bash
+# pull the image from the image registry
+sudo docker pull mspangenberg/bcxform
+# start up the container
+docker run --name bcxform -d --rm -p 5000:5000 bcxform
+```
+
+or build from source with **Docker Build**:
+
+You'll need to have `docker` installed to follow the instructions below. This should result in a ~45MB image being generated. I've taken care to use the most slimmed down base image I could find.
 
 ```bash
 # clone or download this repository
