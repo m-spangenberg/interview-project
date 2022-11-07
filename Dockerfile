@@ -3,7 +3,7 @@
 # we're pulling down the lastest python image for our build
 # since I'm on a Linux machine, it'll default to an AMD64 Linux platform tag
 
-FROM python:latest
+FROM python:alpine
 
 # let's set the relative path inside our container
 # this is where our project files will be located

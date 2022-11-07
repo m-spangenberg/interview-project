@@ -138,6 +138,8 @@ sudo docker images
 sudo docker run --name bcxform -d --rm -p 5000:5000 bcxform
 # visit the project at: http://127.0.0.1:5000/ and stop thje container with
 sudo docker stop bcxform
+# clean up the leftover images and file created by docker
+sudo docker system prune
 ```
 
 With **Pipenv** in a virtual environment:
