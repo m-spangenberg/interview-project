@@ -1,3 +1,9 @@
+![Flask](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask)
+![Flask-Login](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask-login)
+![Flask-SQLAlchemy](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask-sqlalchemy)
+![Python-Dotenv](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/python-dotenv)
+![PyTest](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/pytest)
+
 # Form Project
 
 I have been tasked with completing a small full-stack project over the course of about 72 hours. The project touches on frontend web development as well as backend tasks like endpoint routing, form handling and database interactions. More broadly the emphasis is on writing clean, reusable code that respects modern software development standards and best practices. I have been allowed to complete the core requirements outlined in the provided project file in a language and framework of my choice: Python and Flask paired with SQLite as the database.
