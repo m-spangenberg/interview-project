@@ -119,13 +119,30 @@ CREATE TABLE form_session (
 
 ## Deployment
 
-I really wanted to put together a docker image for this, and you can see the initial files for it in the repo. but I just didn't have time. Way too many spinning plates. You'll have to be happy with the admittedly linux-centric instructions below, but they should work just find on a windows machine with Python and Pip installed.
-
 ### Instructions
 
-You'll need to have `git`, `pip`, `python` available to follow the instructions below.
+With **Docker** building an image from the repo:
 
-Run with Pipenv:
+You'll need to have `git` annd `docker` installed to follow the instructions below.
+
+```bash
+# clone this repository
+git clone https://github.com/m-spangenberg/interview-project.git forms
+# change directory to the repo. folder
+cd ./forms
+# build the docker image from source
+sudo docker build -t bcxform .
+# find  your fresh image under `bcxform`
+sudo docker images
+# run the container (-d detached, --rm remove after shutdown)
+sudo docker run --name bcxform -d --rm -p 5000:5000 bcxform
+# visit the project at: http://127.0.0.1:5000/ and stop thje container with
+sudo docker stop bcxform
+```
+
+With **Pipenv** in a virtual environment:
+
+You'll need to have `git`, `pip`, `python` available to follow the instructions below.
 
 ```bash
 # clone this repository
@@ -140,7 +157,7 @@ pipenv install
 pipenv run flask --app questionnaire --debug run --host=0.0.0.0
 ```
 
-If you're on a Windows machine make sure you've got Python properly installed then:
+or if you're on a **Windows** machine make sure you've got `python` properly installed then:
 
 ```bash
 # download and extract the repository

@@ -24,4 +24,4 @@ COPY . .
 
 # and then set the instructions needed to run Flask with Python when the container starts
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+CMD [ "python3", "-m" , "flask", "--app", "questionnaire", "--debug", "run", "--host=0.0.0.0"]
