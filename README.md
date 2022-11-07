@@ -80,7 +80,7 @@ Questionnaire Project
 
 ## Database Schema
 
-There was much wailing and gnashing of teeth trying to decide if I should just do 'good enough' normalization and focus on getting a minimum viable product ready for deadline, or spend some time building out an epic database with all the decoupling and BCNF anyone could wish for. Ended up spending too much time worrying fretting about schema, but this is a middle of the road version that works, at least.
+There was much wailing and gnashing of teeth trying to decide if I should just do 'good enough' normalization and focus on getting a minimum viable product ready for deadline, or spend some time building out an epic database with all the decoupling and BCNF anyone could wish for. Ended up spending too much time worrying about schema, but this is a middle of the road version that works, at least.
 
 ```sql
 CREATE TABLE applicant (
