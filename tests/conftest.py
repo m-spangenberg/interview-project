@@ -5,8 +5,6 @@ from questionnaire.models import Applicant
 from questionnaire.models import User
 from questionnaire.models import FormSession
 from questionnaire.models import FormState
-from questionnaire.helper import gen_superuser
-from flask_login import LoginManager
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -35,3 +33,19 @@ def superuser():
     """fixture to create a test superuser"""
     user = User(email="superuser@example.com", password="hashedpasswordplaceholder")
     return user
+
+
+@pytest.fixture(scope="module")
+def session_form():
+    """fixture to create a test session"""
+    sesh = FormSession(applicant_id=1, answer="42")
+    return sesh
+
+
+@pytest.fixture(scope="module")
+def session_state():
+    """fixture to create a test state"""
+    sesh_state = FormState(
+        version=1, question="the meaning of life?", input_type="select", choice="42;1;0"
+    )
+    return sesh_state

@@ -123,7 +123,8 @@ def create_app():
                 else:
                     raise Exception("Invalid Email Address!")
 
-            except Exception as e:
+            except Exception:
+                # a bare exception, yes
                 flash("Invalid Email Address!")
 
         return render_template("index.html")
@@ -212,7 +213,8 @@ def create_app():
                 else:
                     raise Exception
 
-            except Exception as e:
+            except Exception:
+                # a bare exception, yes
                 flash("Incorrect Email or Password")
 
         return render_template("login.html")

@@ -13,7 +13,10 @@ from random import randrange
 
 
 def chucky(applicantid: int) -> str:
-    """construct a json schema that represents the applicant and questionnaire session data"""
+    """
+    construct a json schema that represents the
+    applicant and questionnaire session data
+    """
     applicant = Applicant.query.filter_by(id=applicantid).first()
     state = FormSession.query.filter_by(applicant_id=applicantid).all()
 
@@ -104,8 +107,9 @@ def gen_default_form() -> None:
                 db.session.add(
                     FormState(
                         version=1,
-                        question="Where did you hear from us, and what do you think will make\
-                                you a great asset to the BCX Business Application Department?",
+                        question="Where did you hear from us, and what \
+                            do you think will make you a great asset to \
+                                the BCX Business Application Department?",
                         input_type="input",
                         choice=None,
                     )
@@ -113,7 +117,8 @@ def gen_default_form() -> None:
                 db.session.add(
                     FormState(
                         version=1,
-                        question="How many software solutions did you write in your life?",
+                        question="How many software solutions did \
+                            you write in your life?",
                         input_type="select",
                         choice="1 to 5;6 -25;26 -100;101 +",
                     )
@@ -160,7 +165,8 @@ def gen_applicants(count: int) -> None:
             if Applicant.query.first() is None:
 
                 for _ in range(count):
-                    email = f"{choice(f_names)}{choice(l_names)}@{choice(domains)}.{choice(tlds)}"
+                    email = f"{choice(f_names)}{choice(l_names)}\
+                        @{choice(domains)}.{choice(tlds)}"
                     state = 1
                     duration = randrange(5, 120, 1)
 
