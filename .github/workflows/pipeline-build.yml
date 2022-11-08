@@ -5,9 +5,6 @@ name: Build CI
 # PERFORMS: Docker build and push to Docker Hub
 
 on:
-  push:
-      branches:
-        - "main"
   workflow_run:
     workflows: ["Test CI"]
     types:

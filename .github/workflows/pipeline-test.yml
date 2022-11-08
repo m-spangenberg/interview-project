@@ -5,9 +5,6 @@ name: Test CI
 # PERFORMS: linting, auto-styling, and unit testing
 
 on:
-  push:
-      branches:
-        - "main"
   workflow_run:
     workflows: ["Lint CI"]
     types:
