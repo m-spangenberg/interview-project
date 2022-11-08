@@ -1,9 +1,7 @@
 ![Python](https://img.shields.io/github/pipenv/locked/python-version/m-spangenberg/interview-project)
 ![Flask](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask)
-![Flask-Login](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask-login)
-![Flask-SQLAlchemy](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask-sqlalchemy)
-![Python-Dotenv](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/python-dotenv)
 ![PyTest](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/pytest)
+![Docker-Build-Github-Actions](https://img.shields.io/github/workflow/status/m-spangenberg/interview-project/Docker%20Image%20CI?style=flat-square) ![Docker-Image-Size](https://img.shields.io/docker/image-size/mspangenberg/bcxform?style=flat-square)
 
 # Form Project
 
@@ -129,11 +127,11 @@ CREATE TABLE form_session (
 
 ## Deployment
 
-I set up an automated build and push pipeline with GitHub Actions that creates a new Docker image whenever changes are merged to the main branch of this repository. The image can be found over on [Docker Hub](https://hub.docker.com/repository/docker/mspangenberg/bcxform). Instructions on how to run the image are below.
-
 ### Instructions
 
-With **Docker Run**
+I set up an automated build and push pipeline with GitHub Actions that creates a new Docker image whenever changes are merged to the main branch of this repository. The image can be found over on [Docker Hub](https://hub.docker.com/repository/docker/mspangenberg/bcxform). Instructions on how to run the image are below.
+
+#### Docker Run
 
 Just make sure you have [Docker installed](https://docs.docker.com/desktop/install/windows-install/) on whatever platform suits you best.
 
@@ -141,7 +139,7 @@ Just make sure you have [Docker installed](https://docs.docker.com/desktop/insta
 # pull the image from the image registry
 sudo docker pull mspangenberg/bcxform
 # start up the container
-docker run --name bcxform -d --rm -p 5000:5000 bcxform
+docker run --name bcxform -d --rm -p 5000:5000 mspangenberg/bcxform
 ```
 
 or build from source with **Docker Build**:
