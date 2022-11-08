@@ -43,8 +43,6 @@ jobs:
       - name: Test with PyTest and PyTest Cov
         run: |
           python -m pytest --cov=questionnaire
-      - name: Test Failed, Aborting Workflow
-        if: ${{ failure() }}
 
   build:
 
