@@ -4,8 +4,9 @@ def test_index_render(app):
     WHEN the route is requested via GET
     THEN check for valid response.data indicating successful template render
     """
-    response = app.get('/')
-    assert b'Questionnaire' in response.data
+    response = app.get("/")
+    assert b"Questionnaire" in response.data
+
 
 def test_login_render(app):
     """
@@ -13,8 +14,9 @@ def test_login_render(app):
     WHEN the route is requested via GET
     THEN check for valid response.data indicating successful template render
     """
-    response = app.get('/login')
-    assert b'Admin Portal' in response.data
+    response = app.get("/login")
+    assert b"Admin Portal" in response.data
+
 
 def test_404_render(app):
     """
@@ -22,9 +24,10 @@ def test_404_render(app):
     WHEN the route is requested via GET
     THEN check for valid response.data indicating successful template render
     """
-    response = app.get('/notarealresource')
+    response = app.get("/notarealresource")
     assert response.status_code == 404
-    assert b'PAGE NOT FOUND' in response.data
+    assert b"PAGE NOT FOUND" in response.data
+
 
 def test_admin_render(app):
     """
@@ -34,4 +37,4 @@ def test_admin_render(app):
     """
     response = app.get("/admin", follow_redirects=True)
 
-    assert b'Admin Portal' in response.data
+    assert b"Admin Portal" in response.data

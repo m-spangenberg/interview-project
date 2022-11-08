@@ -4,8 +4,9 @@ def test_index_route(app):
     WHEN the route is requested via GET
     THEN check for a valid 200 OK response
     """
-    response = app.get('/')
+    response = app.get("/")
     assert response.status_code == 200
+
 
 def test_login_route(app):
     """
@@ -13,8 +14,9 @@ def test_login_route(app):
     WHEN the route is requested via GET
     THEN check for a valid 200 OK response
     """
-    response = app.get('/login')
+    response = app.get("/login")
     assert response.status_code == 200
+
 
 def test_confirm_route(app):
     """
@@ -22,8 +24,9 @@ def test_confirm_route(app):
     WHEN the route is requested via GET
     THEN check for a valid 200 OK response
     """
-    response = app.get('/confirm')
+    response = app.get("/confirm")
     assert response.status_code == 200
+
 
 # TODO:
 # Set up superuser in conftest.py for testing authenticated views
