@@ -1,17 +1,20 @@
-name: Docker Image CI
+name: Build CI
+
+# WAITS ON: Testing
+# EXECUTED: On merge with main branch
+# PERFORMS: Docker build and push to Docker Hub
 
 on:
   push:
-    branches:
-      - "main"
+      branches:
+        - "main"
+  workflow_run:
+    workflows: ["Test CI"]
+    types:
+      - completed
 
 jobs:
   tests:
-
-    # performs: linting, auto-styling, and unit testing
-    # executed on merge with main branch before proceeding
-    # to docker build and push workflow
-
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
