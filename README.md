@@ -1,6 +1,5 @@
 ![Python](https://img.shields.io/github/pipenv/locked/python-version/m-spangenberg/interview-project)
 ![Flask](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/flask)
-![PyTest](https://img.shields.io/github/pipenv/locked/dependency-version/m-spangenberg/interview-project/pytest)
 ![Docker-Build-Github-Actions](https://img.shields.io/github/workflow/status/m-spangenberg/interview-project/Docker%20Image%20CI?style=flat-square) ![Docker-Image-Size](https://img.shields.io/docker/image-size/mspangenberg/bcxform?style=flat-square)
 
 # Form Project
