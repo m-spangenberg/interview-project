@@ -10,28 +10,18 @@ from flask import flash
 from flask import make_response
 from flask import redirect
 from flask import url_for
-from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
-from werkzeug.exceptions import BadRequest
-from markupsafe import escape
 
 # USER AUTHENTICATION MODULE
 from flask_login import LoginManager
 from flask_login import login_user
 from flask_login import login_required
 from flask_login import logout_user
-from flask_login import current_user
-
-# DATABASE MODULE
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
 
 # STANDARD LIBRARY
 import os
-import json
 import logging
 from datetime import timedelta
-from datetime import datetime
 
 # ADDITIONAL 3RD PARTY MODULES
 from dotenv import load_dotenv
