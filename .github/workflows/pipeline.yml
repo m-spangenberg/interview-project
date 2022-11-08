@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
 
-  linting:
+  test:
 
     runs-on: ubuntu-latest
     timeout-minutes: 3
@@ -31,8 +34,7 @@ jobs:
           flake8 . --count --exit-zero --config .flake8 --statistics
       - name: Autoformat with black
         run: |
-          black questionnaire/
-          black tests/.py
+          black .
       - name: Install testing dependencies
         run: |
           python -m pip install --upgrade pip
@@ -41,11 +43,15 @@ jobs:
       - name: Test with PyTest and PyTest Cov
         run: |
           python -m pytest --cov=questionnaire
+      - name: Test Failed, Aborting Workflow
+        if: ${{ failure() }}
 
-  docker:
+  build:
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    if: ${{ success() }}
+    needs: test
     
     steps:
       -
