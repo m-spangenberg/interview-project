@@ -12,6 +12,7 @@ python-dotenv = "*"
 [dev-packages]
 black = "*"
 pytest = "*"
+flake8 = "*"
 pytest-cov = "*"
 
 [requires]
