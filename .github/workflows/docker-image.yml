@@ -1,5 +1,7 @@
 name: Docker Image CI
 
+# wait on app-test.yml before proceeding with build and push
+
 on:
   push:
     branches:
@@ -9,6 +11,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    
     steps:
       -
         name: Checkout
