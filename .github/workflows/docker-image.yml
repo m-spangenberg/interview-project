@@ -10,7 +10,7 @@ jobs:
 
     # performs: linting, auto-styling, and unit testing
     # executed on merge with main branch before proceeding
-    # to docker build and push workflow in docker-image.yml
+    # to docker build and push workflow
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
