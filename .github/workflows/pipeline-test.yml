@@ -16,10 +16,10 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 3
     strategy:
       matrix:
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.9"]
 
     steps:
       - uses: actions/checkout@v3
