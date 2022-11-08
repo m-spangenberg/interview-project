@@ -11,7 +11,9 @@ I have been tasked with completing a small full-stack project over the course of
 
 Some screenshots of the project from a mobile device to showcase my considerations for responsive design on smaller screens. I don't consider myself a graphic designer, but from a UI/UX perspective, I think the clean, simple pallette helps with readability. I just wish I had time to work in a "night mode"! :) A point of pride - the only javascript in the project is for the mobile view burger-menu.
 
-From left to right, top to bottom:
+From left to right:
+
+![project-screenshots-1](readme/interview-project-views1.png)
 
 * The landing page, which acts as the questionnaire portal. email addresses are only superficially validated by the client, I didn't have time to write something to do more complex validation, but if I did, I would probably do something along the lines of creating a email which with a confirmation code in order to cut down on spam. I did create checks for resubmission though.
 * The admin page, which acts as the administrative portal's login. I made use of Flask-Login for context management in order to have protected routes, but the password hashing and storage is all flask and sql-alchemy.
@@ -19,34 +21,6 @@ From left to right, top to bottom:
 * The actual questionnaire form, auto generated from the database. This had me burning the midnight oil because I was unsure of the best approach for modeling the database in a way which I can reconstruct questionnaires but still be able to modify the questionnaire's state over time... and by the time I decided on a direction for a schema, I had to backtrack and rework code in the rest of the project. Wasted some time - but a lot was learnt!
 * A review page for an dummy questionnaire. I think the one thing that stood out at me from the start of this project was how to cleanly move data from queries to the templating engine and back into the backend for processing. I think if I had a fresh start I might consider going 100% API calls for all operations instead of the mix of form submissions and API CRUD endpoints currently in use.
 * A json copy of the dummy submission. I decided to cobble together something quick for this that just stuffs queries into a dictionary and convert it to json with Flask's jsonify.
-
-![project-screenshots-1](readme/interview-project-views1.png)
-![project-screenshots-2](readme/interview-project-views2.png)
-
-## Evaluation
-
-So below is my interpretation, or understanding of the evaluation criteria for this project. With so much going on in such a short space of time, it was hard for me to reference every single point in this list, but I made a conscious effort to at least hit the broad strokes.
-
-* **Code Reusability**
-  * How modular is the codebase and can portions of it be reused easily?
-* **Code Maintenance**
-  * How difficult is it to keep the code maintained over time?
-* **Code Documentation**
-  * How well are features and design choices documented in the codebase?
-* **Object Orientation**
-  * To what degree is OOP being implemented to leverage the benefits of instantiation and inheritance?
-* **Database Design**
-  * How well thought out is the DB schema, are good practices being implemented in the design?
-* **Generics**
-  * How flexible are your functions and classes and can they handle mixed types?
-* **Method Constructions**
-  * Do you make use of constructors?
-* **MVC Implementation**
-  * Are you making full use of the Mode-View-Controller architecture pattern?
-* **Code Structure and Architecture**
-  * How understandable and neat is your codebase's layout and the project's structure?
-* **Polymorphism**
-  * Are you correctly implementing parent-child inheritance?
 
 ## Application Flow
 
@@ -88,6 +62,8 @@ Questionnaire Project
 ## Database Schema
 
 There was much wailing and gnashing of teeth trying to decide if I should just do 'good enough' normalization and focus on getting a minimum viable product ready for deadline, or spend some time building out an epic database with all the decoupling and BCNF anyone could wish for. Ended up spending too much time worrying about schema, but this is a middle of the road version that works, at least.
+
+![DATABASE-ER-DIAGRAM](readme/database-erd.svg)
 
 ```sql
 CREATE TABLE applicant (
