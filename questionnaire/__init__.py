@@ -54,12 +54,12 @@ def create_app():
     )
 
     # LOGGING CONFIGURATION
-
-    logging.basicConfig(
-        filename="questionnaire.log",
-        level=logging.os.getenv("LOG_LEVEL"),
-        format="%(asctime)s %(levelname)s : %(message)s",
-    )
+    if not os.getenv("APP_DEBUG"):
+        logging.basicConfig(
+            filename="questionnaire.log",
+            level=logging.os.getenv("LOG_LEVEL"),
+            format="%(asctime)s %(levelname)s : %(message)s",
+        )
 
     app.config["DEBUG"] = os.getenv("APP_DEBUG")
     app.config["SECRET_KEY"] = os.getenv("APP_KEY")
@@ -237,7 +237,13 @@ def create_app():
     @login_required
     def build():
         """Serve questionnaire builder page."""
-        return render_template("build.html")
+
+        # pass most current version of the questionnaire on page load
+        val = FormState.query.order_by(FormState.version.desc()).first()
+        form_state = FormState.query.filter_by(version=val.version).all()
+        new_version = int(val.version) + 1
+
+        return render_template("build.html", new_version=new_version, form_state=form_state)
 
     # SERVICE ROUTES
 
