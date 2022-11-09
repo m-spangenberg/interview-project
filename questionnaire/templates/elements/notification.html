@@ -1,11 +1,11 @@
 {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="my-4">
-    {% for message in messages %}
-    <div class="notification is-danger has-text-weight-semibold">
-        <li>{{ message }}</li>
-    </div>
-    {% endfor %}
-    </ul>
-  {% endif %}
+    {% if messages %}
+        <ul class="my-4">
+            {% for message in messages %}
+                <div class="notification is-danger has-text-weight-semibold">
+                    <li>{{ message }}</li>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endwith %}

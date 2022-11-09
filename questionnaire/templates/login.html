@@ -1,60 +1,65 @@
 {% extends "elements/base.html" %}
-
-{% block title %}Admin Login - BCX Project{% endblock title %}
-
+{% block title %}
+    Admin Login - BCX Project
+{% endblock title %}
 {% block body %}
-
-{% include "elements/nav.html" %}
-
-<!-- Login Form -->
-<div class="hero">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <div class="columns is-mobile is-centered">
-          <div class="column is-one-third-desktop is-full-mobile">
-
-            <form action="" method="POST">
-              <div class="field">
-                <h2 class="is-size-3 mb-4 has-text-weight-bold is-unselectable">Admin Portal</h2>
-                <h2 class="is-size-5 mb-6 is-unselectable">A better mousetrap just leaves<br> us with smarter mice! 🧀🐁</h2>
-                
-                <!-- Some admin info -->
-                <ul class="mb-4">
-                  <li><small>Please use the following details to log in.</small></li>
-                  <li><small>email: <strong>admin@example.com</strong></small></li>
-                  <li><small>password: <strong>adminpassword!</strong></small></li>
-                </ul>
-                
-                <p class="control has-icons-left has-icons-right">
-                  <input class="input" name="email" type="email" placeholder="Email" required>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div class="field">
-                <p class="control has-icons-left">
-                  <input class="input" name="password" type="password" placeholder="Password" required>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                </p>
-              </div>
-              <div class="field">
-                <p class="control">
-                  <button class="button is-link is-fullwidth mt-2">Login</button>
-                </p>
-              </div>
-            </form>
-
-            {% include "elements/notification.html" %}
-  
-          </div>
+    {% include "elements/nav.html" %}
+    <!-- Login Form -->
+    <div class="hero">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-mobile is-centered">
+                    <div class="column is-one-third-desktop is-full-mobile">
+                        <form action="" method="post">
+                            <div class="field">
+                                <h2 class="is-size-3 mb-4 has-text-weight-bold is-unselectable">Admin Portal</h2>
+                                <h2 class="is-size-5 mb-6 is-unselectable">
+                                    A better mousetrap just leaves
+                                    <br/>
+                                    us with smarter mice! 🧀🐁
+                                </h2>
+                                <!-- Some admin info -->
+                                <ul class="mb-4">
+                                    <li>
+                                        <small>Please use the following details to log in.</small>
+                                    </li>
+                                    <li>
+                                        <small>email: <strong>admin@example.com</strong></small>
+                                    </li>
+                                    <li>
+                                        <small>password: <strong>adminpassword!</strong></small>
+                                    </li>
+                                </ul>
+                                <p class="control has-icons-left has-icons-right">
+                                    <input class="input" name="email" type="email" placeholder="Email" required/>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <input class="input"
+                                           name="password"
+                                           type="password"
+                                           placeholder="Password"
+                                           required/>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control">
+                                    <button class="button is-link is-fullwidth mt-2">Login</button>
+                                </p>
+                            </div>
+                        </form>
+                        {% include "elements/notification.html" %}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
-{% include "elements/footer.html" %}
-
+    {% include "elements/footer.html" %}
 {% endblock body %}

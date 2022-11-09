@@ -1,76 +1,70 @@
 <!-- Navigation -->
 <nav class="navbar is-transparent">
-
     <!-- Navbar Left -->
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">
-        <h1 class="is-size-3"><strong class="has-text-weight-bold">BCX</strong> NAMIBIA</h1>
-      </a>
-      <div id="navbarBurger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarLinks">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+        <a class="navbar-item" href="/">
+            <h1 class="is-size-3">
+                <strong class="has-text-weight-bold">BCX</strong> NAMIBIA
+            </h1>
+        </a>
+        <div id="navbarBurger"
+             role="button"
+             class="navbar-burger"
+             aria-label="menu"
+             aria-expanded="false"
+             data-target="navbarLinks">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
-  
     <!-- Navbar Right -->
     <div id="navbarLinks" class="navbar-menu">
-           
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="field is-grouped">
-                    
                     {# context specific buttons based on user authentication #}
                     {% if current_user.is_authenticated %}
-
-                    <!-- Admin Portal Button -->
-                    <p class="control">
-                        <a class="button is-link" href="/admin">
-                        <span class="icon">
-                            <i class="fas fa-eye"></i>
-                        </span>
-                        <span>Review</span>
-                        </a>
-                    </p>
-
-                    <!-- Questionnaire Builder Button -->
-                    <p class="control level">
-                    <a class="button is-link" href="/build">
-                        <span class="icon">
-                        <i class="fas fa-file"></i>
-                        </span>
-                        <span>Build</span>
-                    </a>
-                    </p>
-
-                    <!-- Logout Button -->
-                    <p class="control">
-                        <a class="button is-danger" href="/logout">
-                        <span class="icon">
-                            <i class="fas fa-sign-out"></i>
-                        </span>
-                        <span>Logout</span>
-                        </a>
-                    </p>
-
+                        <!-- Admin Portal Button -->
+                        <p class="control">
+                            <a class="button is-link" href="/admin">
+                                <span class="icon">
+                                    <i class="fas fa-eye"></i>
+                                </span>
+                                <span>Review</span>
+                            </a>
+                        </p>
+                        <!-- Questionnaire Builder Button -->
+                        <p class="control level">
+                            <a class="button is-link" href="/build">
+                                <span class="icon">
+                                    <i class="fas fa-file"></i>
+                                </span>
+                                <span>Build</span>
+                            </a>
+                        </p>
+                        <!-- Logout Button -->
+                        <p class="control">
+                            <a class="button is-danger" href="/logout">
+                                <span class="icon">
+                                    <i class="fas fa-sign-out"></i>
+                                </span>
+                                <span>Logout</span>
+                            </a>
+                        </p>
                     {% else %}
-
-                    <!-- Login To Admin Portal/Start Questionnaire -->
-                    <p class="control">
-                        <a class="button is-link" href="/login">
-                        <span class="icon">
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-                        <span>Admin</span>
-                        </a>
-                    </p>
-                    
+                        <!-- Login To Admin Portal/Start Questionnaire -->
+                        <p class="control">
+                            <a class="button is-link" href="/login">
+                                <span class="icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <span>Admin</span>
+                            </a>
+                        </p>
                     {% endif %}
-
                 </div>
             </div>
         </div>
-        
     </div>
-
 </nav>

@@ -4,34 +4,35 @@
     <td class="is-hidden-mobile">{{ form.date }}</td>
     <td class="is-hidden-mobile">{{ form.applicant.duration }}</td>
     <td>
-      
-      <div class="buttons">
-
-        <form action="/api/v1/questionnaire/{{ form.applicant.id }}/review" method="GET" name="form-review">
-          <button class="button is-small mr-2">
-            <span class="icon has-text-link is-small">
-              <i class="fas fa-eye fa-2x"></i>
-            </span>
-          </button>
-        </form>
-
-        <form action="/api/v1/questionnaire/{{ form.applicant.id }}/json" method="GET" name="form-export">
-          <button class="button is-small mr-2">
-            <span class="icon has-text-link is-small">
-              <i class="fas fa-cloud-arrow-down fa-2x"></i>
-            </span>
-          </button>
-        </form>
-
-        <form action="/api/v1/questionnaire/{{ form.applicant.id }}/delete" method="GET" name="form-delete">
-          <button class="button is-small">
-            <span class="icon has-text-danger is-small">
-              <i class="fas fa-trash fa-2x"></i>
-            </span>
-          </button>
-        </form>
-
-      </div>
+        <div class="buttons">
+            <form action="/api/v1/questionnaire/{{ form.applicant.id }}/review"
+                  method="get"
+                  name="form-review">
+                <button class="button is-small mr-2">
+                    <span class="icon has-text-link is-small">
+                        <i class="fas fa-eye fa-2x"></i>
+                    </span>
+                </button>
+            </form>
+            <form action="/api/v1/questionnaire/{{ form.applicant.id }}/json"
+                  method="get"
+                  name="form-export">
+                <button class="button is-small mr-2">
+                    <span class="icon has-text-link is-small">
+                        <i class="fas fa-cloud-arrow-down fa-2x"></i>
+                    </span>
+                </button>
+            </form>
+            <!-- This was supposed to be a DELETE request, need to fix -->
+            <form action="/api/v1/questionnaire/{{ form.applicant.id }}/delete"
+                  method="get"
+                  name="form-delete">
+                <button class="button is-small">
+                    <span class="icon has-text-danger is-small">
+                        <i class="fas fa-trash fa-2x"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
     </td>
 </tr>
-

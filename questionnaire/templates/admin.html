@@ -1,44 +1,32 @@
 {% extends "elements/base.html" %}
-
-{% block title %}Admin Portal - BCX Project{% endblock title %}
-
+{% block title %}
+    Admin Portal - BCX Project
+{% endblock title %}
 {% block body %}
-
-{% include "elements/nav.html" %}
-
-<!-- Form Archive Table -->
-<br>
-<section>
-
-    <!-- Forms Archive -->
-    <table class="table is-fullwidth is-bordered is-hoverable is-striped">
-        <thead>
-          <th class="ms_countfield is-hidden-mobile">#</th>
-          <th>email</th>
-          <th class="ms_datefield is-hidden-mobile">date</th>
-          <th class="ms_countfield is-hidden-mobile">timer</th>
-          <th class="ms_actionbuttons">actions</th>
-        </thead>
-        <tbody>
-
-          <!-- Archived Form Entries -->
-          {% for form in form_archive %}
-
-            {% include "elements/form_row.html" %}
-            
-          {% else %}
-
-            <!-- No Forms Notification -->
-            <p class="title is-size-4 has-weight-bold is-uppercase has-text-centered">No data on record</p>
-
-          {% endfor %}
-
-        </tbody>
-      </table>
-
-</section>
-<br>
-
-{% include "elements/footer.html" %}
-
+    {% include "elements/nav.html" %}
+    <!-- Form Archive Table -->
+    <br/>
+    <section>
+        <!-- Forms Archive -->
+        <table class="table is-fullwidth is-bordered is-hoverable is-striped">
+            <thead>
+                <th class="ms_countfield is-hidden-mobile">#</th>
+                <th>email</th>
+                <th class="ms_datefield is-hidden-mobile">date</th>
+                <th class="ms_countfield is-hidden-mobile">timer</th>
+                <th class="ms_actionbuttons">actions</th>
+            </thead>
+            <tbody>
+                <!-- Archived Form Entries -->
+                {% for form in form_archive %}
+                    {% include "elements/form_row.html" %}
+                {% else %}
+                    <!-- No Forms Notification -->
+                    <p class="title is-size-4 has-weight-bold is-uppercase has-text-centered">No data on record</p>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <br/>
+    {% include "elements/footer.html" %}
 {% endblock body %}
