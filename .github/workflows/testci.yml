@@ -23,7 +23,7 @@ jobs:
       - name: Set up Pipenv
         run: |
           pip install --upgrade pip
-          pip install pipenv
+          pip install pipenv flake8 djlint black
       - name: Install dependencies
         run: |
           pipenv install
