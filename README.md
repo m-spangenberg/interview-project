@@ -180,8 +180,10 @@ I had fun building this project and I learned a few new tricks along the way. I 
 Automatically: Download a branch of the repo state at deadline.
 
 ```
-# add link to deadline branch here
-
+# clone the deadline branch
+git clone -b deadline https://github.com/m-spangenberg/interview-project.git 
+# or download the deadline branch
+https://github.com/m-spangenberg/interview-project/archive/refs/heads/deadline.zip
 ```
 
 Manually: Checkout the state of the repo at deadline.
