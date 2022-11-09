@@ -283,9 +283,21 @@ def create_app():
     @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
     @login_required
     def delete_applicant(applicantid):
-        """delete the applicants data"""
+        """
+        delete the applicants data
+        I initially used GET because DELETE isn't supported in forms
+        TODO: change over to DELETE, rework admin.html/form_rows.html
+        """
         del_applicant(applicantid)
 
+        return redirect(url_for("admin"))
+    
+    @app.post("/api/v1/builder/submit/<string:formversion>")
+    @login_required
+    def post_form(formversion):
+        """
+        submit new form state to database
+        """
         return redirect(url_for("admin"))
 
     return app
