@@ -117,7 +117,7 @@ sudo docker pull mspangenberg/bcxform
 docker run --name bcxform -d --rm -p 5000:5000 mspangenberg/bcxform
 ```
 
-or build from source with **Docker Build**:
+#### Docker Build
 
 You'll need to have `docker` installed to follow the instructions below. This should result in a ~45MB image being generated. I've taken care to use the most slimmed down base image I could find.
 
@@ -138,7 +138,7 @@ sudo docker stop bcxform
 sudo docker system prune
 ```
 
-With **Pipenv** in a virtual environment:
+#### Pipenv Run
 
 You'll need to have `git`, `pip`, `python` available to follow the instructions below.
 
@@ -155,7 +155,7 @@ pipenv install
 pipenv run flask --app questionnaire --debug run --host=0.0.0.0
 ```
 
-or if you're on a **Windows** machine make sure you've got `python` properly installed then:
+#### If all else fails
 
 ```bash
 # download and extract the repository
@@ -167,11 +167,21 @@ flask --app questionnaire --debug run --host=0.0.0.0
 # you'll be able to access the server at http://127.0.0.1:5000
 ```
 
-Feel free to add some questionnaire submission or log into the admin portal, I've generated dummy data for you to test the delete, review, and export buttons. I didn't have time to finish building the builder portion of the project, but I've left the button and route in place for you to inspect it.
+### Usage
 
-## Final Thoughts
+The application is set up to generate the database and populate it with dummy data if it doesn't already exist. As part of the project guidelines, I've left a copy of the database active with my answers to the questions provided. After you've checked that the program works and my answers are intact and accessible, delete the DB and restart flask. You should be presented with 10 randomly generated applications. Feel free to add some questionnaire submissions as an applicant or log into the admin portal and test the delete, review, and export buttons.
+
+## Thoughts
+
+05-11-2022
 
 I had fun building this project and I learned a few new tricks along the way. I got stuck over-optimizing and eventually had to settle for a middle of the road solution because of time constraints, but overall I am very happy with the progress I made up to the deadline.
 
+06-11-2022
+
 That said, I was not completely happy with the version of the project I delivered to the team on deadline and so I put in few more hours of work on Sunday to bring the project up to scratch. The form builder portion of the project might not be done, and I never got to putting a timer on the form submission page, but I'm happy with the result and I gave it a fair shot.
+
+09-11-2022
+
+As of Monday I've been adding extra content to this project, just for the fun of it. So far I have implemented a CI/CD pipeline that performs linting for potential pull-requests to the main branch, and an automated build and release workflow that tests new changes to the stable branch and builds a docker image that then gets pushed to a registry. I also have a feature branch to test integration of the form-builder.
 

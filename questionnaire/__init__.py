@@ -54,12 +54,12 @@ def create_app():
     )
 
     # LOGGING CONFIGURATION
-
-    logging.basicConfig(
-        filename="questionnaire.log",
-        level=logging.os.getenv("LOG_LEVEL"),
-        format="%(asctime)s %(levelname)s : %(message)s",
-    )
+    if not os.getenv("APP_DEBUG"):
+        logging.basicConfig(
+            filename="questionnaire.log",
+            level=logging.os.getenv("LOG_LEVEL"),
+            format="%(asctime)s %(levelname)s : %(message)s",
+        )
 
     app.config["DEBUG"] = os.getenv("APP_DEBUG")
     app.config["SECRET_KEY"] = os.getenv("APP_KEY")
@@ -237,7 +237,13 @@ def create_app():
     @login_required
     def build():
         """Serve questionnaire builder page."""
-        return render_template("build.html")
+
+        # pass most current version of the questionnaire on page load
+        val = FormState.query.order_by(FormState.version.desc()).first()
+        form_state = FormState.query.filter_by(version=val.version).all()
+        new_version = int(val.version) + 1
+
+        return render_template("build.html", new_version=new_version, form_state=form_state)
 
     # SERVICE ROUTES
 
@@ -277,9 +283,21 @@ def create_app():
     @app.get("/api/v1/questionnaire/<string:applicantid>/delete")
     @login_required
     def delete_applicant(applicantid):
-        """delete the applicants data"""
+        """
+        delete the applicants data
+        I initially used GET because DELETE isn't supported in forms
+        TODO: change over to DELETE, rework admin.html/form_rows.html
+        """
         del_applicant(applicantid)
 
+        return redirect(url_for("admin"))
+    
+    @app.post("/api/v1/builder/submit/<string:formversion>")
+    @login_required
+    def post_form(formversion):
+        """
+        submit new form state to database
+        """
         return redirect(url_for("admin"))
 
     return app

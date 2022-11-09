@@ -1,31 +1,24 @@
 {% extends "elements/base.html" %}
-
-{% block title %}Admin Review - BCX Project{% endblock title %}
-
+{% block title %}
+    Admin Review - BCX Project
+{% endblock title %}
 {% block body %}
-
-{% include "elements/nav.html" %}
-
-<!-- Applicant Questionnaire Review-->
-<div class="hero">
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <div class="columns is-centered">
-        <div class="column is-two-thirds-desktop is-full-mobile">
-
-          <h1 class="title is-size-5 has-text-dark has-text-centered">{{ applicant.email }}</h1>
-
-          <!-- Generated and Filled Form Fields -->
-          {% for question in questions %}
-              {% include "elements/form_answer.html" %}
-          {% endfor %}
-
+    {% include "elements/nav.html" %}
+    <!-- Applicant Questionnaire Review-->
+    <div class="hero">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-centered">
+                    <div class="column is-two-thirds-desktop is-full-mobile">
+                        <h1 class="title is-size-5 has-text-dark has-text-centered">{{ applicant.email }}</h1>
+                        <!-- Generated and Filled Form Fields -->
+                        {% for question in questions %}
+                            {% include "elements/form_answer.html" %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
-
-{% include "elements/footer.html" %}
-
+    {% include "elements/footer.html" %}
 {% endblock body %}

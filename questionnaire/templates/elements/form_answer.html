@@ -1,17 +1,11 @@
 <div class="card is-shadowless my-2">
     <header class="card-header has-background-link is-unselectable">
-        <p class="card-header-title is-size-5 has-text-white">
-            Question {{ question.state_id }}
-        </p>
+        <p class="card-header-title is-size-5 has-text-white">Question {{ question.state_id }}</p>
     </header>
     <div class="card-content is-unselectable">
-      <div class="content has-text-weight-bold">
-        {{ question.session.question }}
-      </div>
+        <div class="content has-text-weight-bold">{{ question.session.question }}</div>
     </div>
     <div class="card-content has-background-light is-unselectable">
-        <div class="content">
-          {{ question.answer }}
-        </div>
+        <div class="content">{{ question.answer }}</div>
     </div>
 </div>

@@ -1,27 +1,19 @@
 {% extends "elements/base.html" %}
-
-{% block title %}Confirmation - BCX Project{% endblock title %}
-
+{% block title %}
+    Confirmation - BCX Project
+{% endblock title %}
 {% block body %}
-
-{% include "elements/nav.html" %}
-
-<!-- 404 Notice -->
-<br>
-<section>
-    <div class="hero is-large">
-        <div class="hero-body">
-            <p class="title is-size-1">
-              200 OK
-            </p>
-            <p class="subtitle">
-              NICE WORK, BUDDY! YOUR QUESTIONNAIRE HAS BEEN SUBMITTED.
-            </p>
+    {% include "elements/nav.html" %}
+    <!-- 404 Notice -->
+    <br/>
+    <section>
+        <div class="hero is-large">
+            <div class="hero-body">
+                <p class="title is-size-1">200 OK</p>
+                <p class="subtitle">NICE WORK, BUDDY! YOUR QUESTIONNAIRE HAS BEEN SUBMITTED.</p>
+            </div>
         </div>
-    </div>
-</section>
-<br>
-
-{% include "elements/footer.html" %}
-
+    </section>
+    <br/>
+    {% include "elements/footer.html" %}
 {% endblock body %}
