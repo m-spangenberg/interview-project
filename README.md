@@ -177,13 +177,14 @@ The application is set up to generate the database and populate it with dummy da
 
 I had fun building this project and I learned a few new tricks along the way. I got stuck over-optimizing and eventually had to settle for a middle of the road solution because of time constraints, but overall I am very happy with the progress I made up to the deadline. To confirm the state of my work as of `2022-11-05` simply do the following:
 
-Automatic Check
+Automatically: Download a branch of the repo state at deadline.
 
 ```
 # add link to deadline branch here
+
 ```
 
-Manual Check
+Manually: Checkout the state of the repo at deadline.
 
 ```bash
 # grab a copy of this repository with git at the exact deadline timestamp
