@@ -10,8 +10,8 @@ jobs:
 
   test:
 
-    runs-on: [self-hosted, Linux, ARM64]
-    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -20,8 +20,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          architecture: x64
-          cache: 'pip'
       - name: Set up Pipenv
         run: |
           pip install --upgrade pip
