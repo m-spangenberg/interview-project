@@ -175,7 +175,26 @@ The application is set up to generate the database and populate it with dummy da
 
 05-11-2022
 
-I had fun building this project and I learned a few new tricks along the way. I got stuck over-optimizing and eventually had to settle for a middle of the road solution because of time constraints, but overall I am very happy with the progress I made up to the deadline.
+I had fun building this project and I learned a few new tricks along the way. I got stuck over-optimizing and eventually had to settle for a middle of the road solution because of time constraints, but overall I am very happy with the progress I made up to the deadline. To confirm the state of my work as of `2022-11-05` simply do the following:
+
+Automatic Check
+
+```
+# add link to deadline branch here
+```
+
+Manual Check
+
+```bash
+# grab a copy of this repository with git at the exact deadline timestamp
+git clone https://github.com/m-spangenberg/interview-project.git
+# from inside the interview-project folder do:
+git log --since='2022-11-02' --until='2022-11-05:18:00:00'
+# the first result should be the last commit within that hour range
+# commit ec8d0f18fed3c8c64474d4bf0d10bca31fb03fff
+# Date:   Sat Nov 5 17:06:11 2022 +0200
+git checkout ec8d0f18fed3c8c64474d4bf0d10bca31fb03fff
+```
 
 06-11-2022
 
