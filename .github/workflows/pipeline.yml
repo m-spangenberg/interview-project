@@ -1,18 +1,18 @@
-name: CI Pipeline
+name: CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - stable
   pull_request:
     branches:
-      - main
+      - stable
 
 jobs:
 
   test:
 
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, ARM64]
     timeout-minutes: 3
     strategy:
       matrix:
@@ -46,7 +46,7 @@ jobs:
 
   build:
 
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, ARM64]
     timeout-minutes: 5
     if: ${{ success() }}
     needs: test
