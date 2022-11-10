@@ -18,6 +18,8 @@ jobs:
     - name: Install Pipenv
       run: |
         if [[ `uname` != "Darwin" ]]; then sudo apt install pipenv; fi
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -U setuptools
         export PIPENV_VENV_IN_PROJECT=1
     - name: Install Dependencies
       run: |
