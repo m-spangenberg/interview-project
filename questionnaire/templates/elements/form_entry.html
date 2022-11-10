@@ -1,5 +1,5 @@
-<div class="box is-shadowless my-2 mx-2">
-    <button class="delete is-medium is-pulled-right"></button>
+<div id="{{ form_entry.id }}" class="box is-shadowless my-2 mx-2">
+    <button id="deleteEntry" class="delete is-medium is-pulled-right"></button>
     <!-- Question Field -->
     <label class="label">Q: {{ form_entry.question | trim }}</label>
     <label class="label">A: {{ form_entry.input_type | title }}, ({{ form_entry.choice }})</label>
