@@ -33,7 +33,7 @@ jobs:
           pipenv run flake8 . --count --exit-zero --config .flake8 --statistics
       - name: Lint HTML and Jinja with djLint
         run: |
-          pipenv run djlint questionnaire/templates/ --profile=jinja --configuration .djlintrc --statistics
+          pipenv run djlint questionnaire/templates/ --profile=jinja --configuration .djlintrc --warn --statistics
       - name: Autoformat with black
         run: |
           pipenv run black .
