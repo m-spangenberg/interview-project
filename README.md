@@ -100,6 +100,17 @@ CREATE TABLE form_session (
 );
 ```
 
+## Form Builder
+
+I decided to make the state of the form be based on structure of the most recent version in the `FormState` table. The actions on the build page are as follows:
+
+1. the route renders the page to an authenticated user
+2. the page is populated by the most recent version in `FormState`
+3. the user can remove and add questions with simple AJAX requests
+4. the user can save a new version to `FormState`
+
+In this way we keep interactions on the client's browser for as long as possible to avoid unnecessary calls to the database. In a more formal setting where forms are very complex, it might be convenient to implement logic that stores the form state in the user's browser session at set intervals until they decide to save the form.
+
 ## Deployment
 
 ### Instructions
