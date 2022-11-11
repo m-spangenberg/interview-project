@@ -31,16 +31,19 @@ $(document).on('click', '#addEntry', function() {
     // capitalize input type
     let input_capitalize = input_types[0].toUpperCase() + input_types.slice(1).toLowerCase();
         
+    // generate meaningful id from existing form content and increment
+    let id = parseInt($("div").parent().find('.box').last().prev().attr('id'));
+    id++;
+
     // construct entry
-    // TODO: give id and name to required fields
     $entryDiv = $(
-        `<div id="" class="box is-shadowless my-2 mx-2">
+        `<div id="${id}" class="box is-shadowless my-2 mx-2">
         <button id="deleteEntry" class="delete is-medium is-pulled-right"></button>
         <label class="label">Q: ${question} </label>
-        <input type="hidden" id="" name="" value="${question}">
+        <input type="hidden" id="question ${id}" name="question ${id}" value="${question}">
         <label class="label">A: ${input_capitalize}, (${input_options})</label>
-        <input type="hidden" id="" name="" value="${input_capitalize}">
-        <input type="hidden" id="" name="" value="${input_options}">
+        <input type="hidden" id="input ${id}" name="input ${id}" value="${input_capitalize}">
+        <input type="hidden" id="option ${id}" name="option ${id}" value="${input_options}">
         </div>`
     );
 
