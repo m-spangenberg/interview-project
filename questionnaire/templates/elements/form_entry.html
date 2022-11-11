@@ -2,5 +2,8 @@
     <button id="deleteEntry" class="delete is-medium is-pulled-right"></button>
     <!-- Question Field -->
     <label class="label">Q: {{ form_entry.question | trim }}</label>
+    <input type="hidden" id="question {{ form_entry.id }}" name="question {{ form_entry.id }}" value="{{ form_entry.question }}">
     <label class="label">A: {{ form_entry.input_type | title }}, ({{ form_entry.choice }})</label>
+    <input type="hidden" id="input {{ form_entry.id }}" name="input {{ form_entry.id }}" value="{{ form_entry.input_type }}">
+    <input type="hidden" id="option {{ form_entry.id }}" name="option {{ form_entry.id }}" value="{{ form_entry.choice }}">
 </div>
