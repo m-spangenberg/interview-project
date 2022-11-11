@@ -233,14 +233,10 @@ def create_app():
         form_archive = FormSession.query.group_by(FormSession.applicant_id)
         return render_template("admin.html", form_archive=form_archive)
 
-    @app.route("/build", methods=["GET", "POST"])
+    @app.route("/build", methods=["GET"])
     @login_required
     def build():
         """Serve questionnaire builder page."""
-        if request.method == "POST":
-
-            for i in request.form:
-                print(i)
 
         # pass most current version of the questionnaire on page load
         val = FormState.query.order_by(FormState.version.desc()).first()
@@ -294,6 +290,18 @@ def create_app():
         using AJAX DELETE HTTP request
         """
         del_applicant(applicantid)
+
+        return redirect(url_for("admin"))
+    
+    @app.post("/api/v1/questionnaire/<string:formversion>/add")
+    @login_required
+    def add_form(formversion):
+        """
+        take the contents of form-builder as a json object and
+        construct a new form state.
+        """
+        
+        #TODO: parse json object from builder page
 
         return redirect(url_for("admin"))
 
