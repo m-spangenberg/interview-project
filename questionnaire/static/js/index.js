@@ -23,23 +23,28 @@ $(document).on('click', '#addEntry', function() {
     let input_options = $("input[name=entryOptionField]").val();
     let input_types = $("select[name=entryInputTypeField] option:checked").val();
 
-    // Set empty options to None for consistency
+    // set empty options to None for consistency
     if (!input_options){
         input_options = 'None';
     }
 
-    // Capitalize input type
+    // capitalize input type
     let input_capitalize = input_types[0].toUpperCase() + input_types.slice(1).toLowerCase();
         
     // construct entry
+    // TODO: give id and name to required fields
     $entryDiv = $(
-        `<div id="x" class="box is-shadowless my-2 mx-2">
+        `<div id="" class="box is-shadowless my-2 mx-2">
         <button id="deleteEntry" class="delete is-medium is-pulled-right"></button>
-        <label id="x" class="label">Q: ${question} </label>
-        <label id="x" class="label">A: ${input_capitalize}, (${input_options})</label>
+        <label class="label">Q: ${question} </label>
+        <input type="hidden" id="" name="" value="${question}">
+        <label class="label">A: ${input_capitalize}, (${input_options})</label>
+        <input type="hidden" id="" name="" value="${input_capitalize}">
+        <input type="hidden" id="" name="" value="${input_options}">
         </div>`
     );
 
+    // insert the new entry below the existing ones
     $($entryDiv).insertBefore("#entryCreation");
 });
 
@@ -64,3 +69,4 @@ $(document).on('click', 'select[name=entryInputTypeField]', function() {
     }
 });
 
+// form-builder -- remove empty entries
