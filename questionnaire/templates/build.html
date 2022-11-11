@@ -12,7 +12,7 @@
             FORM VERSION: {{ new_version | string }}
         </h1>
         <!-- Add Question -->
-        <form action="" method="post" class="box is-shadowless has-background-link">
+        <div class="box is-shadowless has-background-link">
             <!-- Current State -->
             {% for form_entry in form_state %}
                 {% include "elements/form_entry.html" %}
@@ -73,7 +73,7 @@
                     <span>Save</span>
                 </button>
             </div>
-        </form>
+        </div>
     </section>
     <br/>
     {% include "elements/footer.html" %}
