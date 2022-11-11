@@ -33,7 +33,13 @@ $(document).on('click', '#addEntry', function() {
         
     // generate meaningful id from existing form content and increment
     let id = parseInt($("div").parent().find('.box').last().prev().attr('id'));
-    id++;
+
+    // when all entries are removed we need to check for NaN
+    if (isNaN(id)){
+        id = 1;
+    } else {
+        id++;
+    }
 
     // construct entry
     $entryDiv = $(
@@ -72,4 +78,28 @@ $(document).on('click', 'select[name=entryInputTypeField]', function() {
     }
 });
 
-// form-builder -- remove empty entries
+// form-builder -- remove empty entries automatically
+
+// form-builder -- save form to database by making an API call to an endpoint
+
+$(document).on('click', '#saveEntry', function() {
+
+    // construct the formstate
+    let formstate = [
+        {"": ""}
+    ]
+
+    // stringify to json and POST with ajax
+    $.ajax({
+        type: "POST",
+        url: "/api/v1/questionnaire/<string:formversion>/add",
+        data: JSON.stringify({ formversion: formstate }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){alert(data);},
+        error: function(errMsg) {
+            alert(errMsg);
+        }
+    });
+
+});
