@@ -237,6 +237,10 @@ def create_app():
     @login_required
     def build():
         """Serve questionnaire builder page."""
+        if request.method == "POST":
+
+            for i in request.form:
+                print(i)
 
         # pass most current version of the questionnaire on page load
         val = FormState.query.order_by(FormState.version.desc()).first()
