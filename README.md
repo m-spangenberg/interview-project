@@ -8,7 +8,9 @@ I have been tasked with completing a small full-stack project over the course of
 
 ## Screenshots
 
-Some screenshots of the project from a mobile device to showcase my considerations for responsive design on smaller screens. I don't consider myself a graphic designer, but from a UI/UX perspective, I think the clean, simple pallette helps with readability. I just wish I had time to work in a "night mode"! :) A point of pride - the only javascript in the project is for the mobile view burger-menu.
+Some screenshots of the project from a mobile device to showcase my considerations for responsive design on smaller screens. I don't consider myself a graphic designer, but from a UI/UX perspective, I think the clean, simple pallette helps with readability. I just wish I had time to work in a "night mode"! :) ~~A point of pride - the only javascript in the project is for the mobile view burger-menu.~~
+
+12-11-2022 -- Implemented the client-side logic for the form builder with JQuery
 
 From left to right:
 
