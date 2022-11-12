@@ -1,0 +1,39 @@
+name: CI Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Set up Pipenv
+        run: |
+          pip install --upgrade pip
+          pip install pipenv flake8 djlint black
+      - name: Install dependencies
+        run: |
+          pipenv install
+      - name: Lint Python with flake8
+        run: |
+          pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          pipenv run flake8 . --count --exit-zero --config .flake8 --statistics
+      - name: Lint HTML and Jinja with djLint
+        run: |
+          pipenv run djlint questionnaire/templates/ --profile=jinja --configuration .djlintrc --warn --statistics
+      - name: Autoformat with black
+        run: |
+          pipenv run black .

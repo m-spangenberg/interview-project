@@ -9,37 +9,44 @@
     <section>
         <!-- Construct Current State of Questionnaire -->
         <h1 class="title is-size-5-desktop is-size-4-mobile has-text-dark has-text-centered">
-            FORM VERSION: {{ new_version | string }}
+            FORM VERSION: <span id="formVersion">{{ new_version | string }}</span>
         </h1>
         <!-- Add Question -->
-        <form class="box is-shadowless has-background-link">
+        <div class="box is-shadowless has-background-link">
             <!-- Current State -->
             {% for form_entry in form_state %}
                 {% include "elements/form_entry.html" %}
             {% endfor %}
-            <div class="box is-shadowless my-2 mx-2">
-                <!-- Question Field -->
+            <!-- Question Creation -->
+            <div id="entryCreation" class="box is-shadowless my-2 mx-2">
+                <!-- Question Input Field -->
                 <div class="field">
                     <label class="label">Add Question</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Question..."/>
+                        <input class="input"
+                                id="entryTextField"
+                                name="entryTextField"
+                                type="text"
+                                placeholder="Question..."/>
                     </div>
                 </div>
-                <!-- Question Field -->
-                <div class="field">
+                <!-- Selection Options Field -- TODO: disable when input is select -->
+                <div id="entryOptions" class="field">
                     <label class="label">Selection Options</label>
                     <p class="mb-2">
                         <small>Use a semicolon ; as a delimiter</small>
                     </p>
                     <div class="control">
                         <input class="input"
+                               id="entryOptionField"
+                               name="entryOptionField"
                                type="text"
                                placeholder="option 1;option 2;option 3;etc"/>
                     </div>
                 </div>
                 <!-- Question Input Type -->
                 <div class="select">
-                    <select>
+                    <select id="entryInput" name="entryInputTypeField">
                         <option value="input">
                             Input
                         </option>
@@ -52,21 +59,21 @@
                     </select>
                 </div>
                 <!-- Add Question -->
-                <button class="button is-link is-pulled-right">
+                <button id="addEntry" type="button" class="button is-link is-pulled-right">
                     <span class="icon is-small">
                         <i class="fas fa-plus"></i>
                     </span>
                     <span>Add</span>
                 </button>
                 <!-- Save -->
-                <button class="button is-success is-pulled-right mr-2">
+                <button id="saveEntry" class="button is-success is-pulled-right mr-2">
                     <span class="icon is-small">
                         <i class="fas fa-floppy-disk"></i>
                     </span>
                     <span>Save</span>
                 </button>
             </div>
-        </form>
+        </div>
     </section>
     <br/>
     {% include "elements/footer.html" %}

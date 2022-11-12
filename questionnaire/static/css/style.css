@@ -21,6 +21,7 @@ footer {
 }
 
 .ms_actionbuttons {
+    min-width:145px;
     width:145px;
 }
 

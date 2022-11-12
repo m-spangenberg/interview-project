@@ -1,10 +1,10 @@
 <tr>
     <td class="is-hidden-mobile">{{ form.applicant.id }}</td>
-    <td>{{ form.applicant.email }}</td>
+    <td class="is-clipped">{{ form.applicant.email }}</td>
     <td class="is-hidden-mobile">{{ form.date }}</td>
     <td class="is-hidden-mobile">{{ form.applicant.duration }}</td>
-    <td>
-        <div class="buttons">
+    <td class="">
+        <div class="field is-grouped">
             <form action="/api/v1/questionnaire/{{ form.applicant.id }}/review"
                   method="get"
                   name="form-review">

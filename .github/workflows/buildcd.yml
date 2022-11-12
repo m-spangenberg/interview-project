@@ -76,4 +76,4 @@ jobs:
           push: true
           tags: |
             mspangenberg/bcxform:latest
-            mspangenberg/bcxform:0.1.0
+            mspangenberg/bcxform:0.2.0
