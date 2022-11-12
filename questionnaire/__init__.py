@@ -33,6 +33,7 @@ from .helper import gen_applicants
 from .helper import gen_superuser
 from .helper import gen_default_form
 from .helper import gen_sessions
+from .helper import load_question
 from .helper import chucky
 
 # DATABASE MODELS
@@ -169,8 +170,8 @@ def create_app():
 
             return redirect(url_for("confirm"))
 
-        # TODO: modify query to return the newest version of the form
-        forms = FormState.query.filter_by(version=1).all()
+        val = FormState.query.order_by(FormState.version.desc()).first()
+        forms = FormState.query.filter_by(version=val.version).all()
 
         # store the applicant's info in the database on load
         # set state to false so we know the questionnaire isn't completed
@@ -293,16 +294,32 @@ def create_app():
 
         return redirect(url_for("admin"))
     
-    @app.post("/api/v1/questionnaire/<string:formversion>/add")
+    @app.post("/api/v1/form/<string:formversion>/add")
     @login_required
     def add_form(formversion):
         """
         take the contents of form-builder as a json object and
         construct a new form state.
         """
-        
-        #TODO: parse json object from builder page
+        req = request.get_json()
 
-        return redirect(url_for("admin"))
+        version = req['formversion']['version']
+        val = FormState.query.order_by(FormState.version.desc()).first()
+
+        # make sure api request matches page contents
+        if formversion == version and version != val.version:
+            
+            for question in req['formversion']['questions']:
+
+                load_question(
+                    int(version),
+                    str(question['question']),
+                    str(question['inputtype']),
+                    str(question['inputchoice'])
+                    )
+
+        # because of how AJAX works, the browser request won't trigger a redirect
+        # like a normal form or http request would, so we return some JSON
+        return jsonify({ 'url': '/admin'})
 
     return app
