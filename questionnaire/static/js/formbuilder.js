@@ -1,6 +1,6 @@
 // NOTE:
-// This code below is to show I can get by with JavaScript and JQuery,
-// but I generally try to keep client side logic to a minimum with something like HTMX.
+// The code below is to show I can get by with JavaScript and JQuery, it would have worked just
+// as well if I used a standard form approach or perhaps something like HTMX.
 
 // form-builder -- delete entry from page
 $(document).on('click', '#deleteEntry', function () {
@@ -42,18 +42,19 @@ $(document).on('click', '#addEntry', function() {
 
     // construct entry
     $entryDiv = $(
-        `<div id="${id}" class="box is-shadowless my-2 mx-2">
+        `<div id="${id}" class="box is-shadowless my-2 mx-2 question">
         <button id="deleteEntry" class="delete is-medium is-pulled-right"></button>
         <label class="label">Q: ${question} </label>
         <input type="hidden" id="question ${id}" name="question ${id}" value="${question}">
         <label class="label">A: ${input_capitalize}, (${input_options})</label>
-        <input type="hidden" id="input ${id}" name="input ${id}" value="${input_capitalize}">
+        <input type="hidden" id="input ${id}" name="input ${id}" value="${input_types}">
         <input type="hidden" id="option ${id}" name="option ${id}" value="${input_options}">
         </div>`
     );
 
     // clear field
     $("input[name=entryTextField]").val('');
+    $("input[name=entryOptionField]").val('');
 
     // insert the new entry below the existing ones
     $($entryDiv).insertBefore("#entryCreation");
@@ -83,21 +84,42 @@ $(document).on('click', 'select[name=entryInputTypeField]', function() {
 // form-builder -- save form to database by making an API call to an endpoint
 $(document).on('click', '#saveEntry', function() {
 
-    // construct the form state
-    let formstate = [
-        {"": ""}
-    ]
+    // TODO: on save -->
+    // check for empty form
+    // check for unchanged form
 
-    // stringify to json and POST with ajax
+    // check version
+    let version = $("#formVersion").text();
+
+    // define the json schema for the formstate object
+    let formstate = {
+            "version": version,
+            "questions": [
+                // push json object into this array
+            ]
+        }
+
+    // cycle through all questions on builder page
+    // construct JSON object in-place and push to formstate
+    $(".question").each(function(){
+        let quest = {
+            "question": $(this).find("input[name^=question]").val().replace(/\s+/g, " "),
+            "inputtype": $(this).find("input[name^=input]").val(),
+            "inputchoice": $(this).find("input[name^=option]").val()
+        }
+        formstate.questions.push(quest);
+    });
+
+    // probably best to implement some sort of state UUID here
+    // but for this small example the version number is ok
     $.ajax({
         type: "POST",
-        url: "/api/v1/questionnaire/<string:formversion>/add",
+        url: `/api/v1/form/${version}/add`,
         data: JSON.stringify({ formversion: formstate }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function(data){alert(data);},
-        error: function(errMsg) {
-            alert(errMsg);
+        success: function(data) {
+            window.location.href = data.url;
         }
     });
 
