@@ -9,7 +9,7 @@
     <section>
         <!-- Construct Current State of Questionnaire -->
         <h1 class="title is-size-5-desktop is-size-4-mobile has-text-dark has-text-centered">
-            FORM VERSION: {{ new_version | string }}
+            FORM VERSION: <span id="formVersion">{{ new_version | string }}</span>
         </h1>
         <!-- Add Question -->
         <div class="box is-shadowless has-background-link">
