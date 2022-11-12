@@ -41,6 +41,37 @@ def chucky(applicantid: int) -> str:
     return data_schema
 
 
+def load_question(v: int, q: str, i: str, c: str) -> None:
+    '''
+    load new question into FormState when supplied with
+    v = version
+    q = question
+    i = input
+    c = choice
+
+    NOTE:
+    If the database was better laid out I would be able to
+    leave unchanged questions as-is and avoid duplication
+    '''
+    # a ternary operator to catch NULL condition
+    # replaces c with NULL value if 'None' else keeps value
+    c = None if c == 'None' else c
+
+    try:
+        if q is not None:
+            with current_app.app_context():
+
+                question = FormState(version=v, question=q, input_type=i, choice=c)
+                db.session.add(question)
+                db.session.commit()
+
+        raise Exception("check form builder for errors")
+
+    except Exception as e:
+        current_app.logger.error("%s -- failed add question", e)
+
+
+
 def del_applicant(applicantid: int) -> None:
     """delete the applicant and all their associated data from the database"""
     try:
