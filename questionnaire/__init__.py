@@ -33,6 +33,7 @@ from .helper import gen_applicants
 from .helper import gen_superuser
 from .helper import gen_default_form
 from .helper import gen_sessions
+from .helper import load_question
 from .helper import chucky
 
 # DATABASE MODELS
@@ -169,8 +170,8 @@ def create_app():
 
             return redirect(url_for("confirm"))
 
-        # TODO: modify query to return the newest version of the form
-        forms = FormState.query.filter_by(version=1).all()
+        val = FormState.query.order_by(FormState.version.desc()).first()
+        forms = FormState.query.filter_by(version=val.version).all()
 
         # store the applicant's info in the database on load
         # set state to false so we know the questionnaire isn't completed
@@ -233,7 +234,7 @@ def create_app():
         form_archive = FormSession.query.group_by(FormSession.applicant_id)
         return render_template("admin.html", form_archive=form_archive)
 
-    @app.route("/build", methods=["GET", "POST"])
+    @app.route("/build", methods=["GET"])
     @login_required
     def build():
         """Serve questionnaire builder page."""
@@ -287,17 +288,38 @@ def create_app():
         delete the applicants data
         I initially used GET because DELETE isn't supported in forms
         TODO: change over to DELETE, rework admin.html/form_rows.html
+        using AJAX DELETE HTTP request
         """
         del_applicant(applicantid)
 
         return redirect(url_for("admin"))
     
-    @app.post("/api/v1/builder/submit/<string:formversion>")
+    @app.post("/api/v1/form/<string:formversion>/add")
     @login_required
-    def post_form(formversion):
+    def add_form(formversion):
         """
-        submit new form state to database
+        take the contents of form-builder as a json object and
+        construct a new form state.
         """
-        return redirect(url_for("admin"))
+        req = request.get_json()
+
+        version = req['formversion']['version']
+        val = FormState.query.order_by(FormState.version.desc()).first()
+
+        # make sure api request matches page contents
+        if formversion == version and version != val.version:
+            
+            for question in req['formversion']['questions']:
+
+                load_question(
+                    int(version),
+                    str(question['question']),
+                    str(question['inputtype']),
+                    str(question['inputchoice'])
+                    )
+
+        # because of how AJAX works, the browser request won't trigger a redirect
+        # like a normal form or http request would, so we return some JSON
+        return jsonify({ 'url': '/admin'})
 
     return app
